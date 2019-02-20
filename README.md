@@ -7,6 +7,9 @@ Scripts de importación desde geodatabase hacia base de datos de publicación.
   - comandos.php: toma los archivos dentro del directorio SHPs y los importa a la base de datos de publicación.
   - genera_tablas_sig.php: genera las tablas "lindas" a partir de las tablas importadas con el script "comandos.php". La estructura de datos necesaria se encuentra en "tablas_sig.backup", se debe ejecutar tablas_sig_backup al menos una vez antes de poder importar los datos.
 
+### Crear la tabla de configuración para reemplazar atributos del catalogo por nombres amigables
+sudo -u postgres psql sigpublicacion < tablas_sig.backup
+
 ### Todo
 
  - Autodectar el sisitema operativo en comandos.php (y generar comandos correspondientes al sistema operativo).
