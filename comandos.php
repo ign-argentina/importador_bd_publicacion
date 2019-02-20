@@ -21,10 +21,12 @@ $aDatos = array();
 
 if ($sSistemaOperativo == 'windows') {
 	$sBashComentario = 'REM';
-	$sComandosIniciales = 'chcp 65001';
+    $sComandosIniciales = 'chcp 65001';
+    $sEnvVar = 'SET';
 } elseif ($sSistemaOperativo == 'linux') {
 	$sBashComentario = '#';
 	$sComandosIniciales = '';
+    $sEnvVar = 'export';
 } else {
 	die('Falta indicar el sistema operativo');
 }
@@ -43,7 +45,7 @@ echo '
 '.$sComandosIniciales.'
 
 '.$sBashComentario.' Crear variable entorno password
-SET PGPASSWORD='.$sDBPsw.'
+'. $sEnvVar.' PGPASSWORD='.$sDBPsw.'
 
 '.$sBashComentario.' Extension para UUID
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"uuid-ossp\\""
@@ -167,7 +169,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f views\\'.$sVista.'.sql
 
 echo '
 '.$sBashComentario.' Eliminar variable entorno password
-SET PGPASSWORD=
+'.$sEnvVar.' PGPASSWORD=
 ';
 
 
