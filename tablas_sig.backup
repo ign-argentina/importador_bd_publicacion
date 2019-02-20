@@ -1,0 +1,1041 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.7
+-- Dumped by pg_dump version 9.5.5
+
+-- Started on 2019-02-20 09:46:47
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 256 (class 1259 OID 1882015)
+-- Name: atributo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE atributo (
+    codigo character varying NOT NULL,
+    etiqueta character varying NOT NULL,
+    definicion character varying,
+    tipo character varying,
+    codigo_dfdd character(3)
+);
+
+
+ALTER TABLE atributo OWNER TO postgres;
+
+--
+-- TOC entry 257 (class 1259 OID 1882021)
+-- Name: atributo_leyenda; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE atributo_leyenda (
+    tabla character varying NOT NULL,
+    codigo character varying NOT NULL,
+    orden integer NOT NULL
+);
+
+
+ALTER TABLE atributo_leyenda OWNER TO postgres;
+
+--
+-- TOC entry 258 (class 1259 OID 1882027)
+-- Name: atributo_quitar; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE atributo_quitar (
+    codigo character varying NOT NULL
+);
+
+
+ALTER TABLE atributo_quitar OWNER TO postgres;
+
+--
+-- TOC entry 259 (class 1259 OID 1882033)
+-- Name: atributo_sld; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE atributo_sld (
+    tabla character varying NOT NULL,
+    codigo character varying NOT NULL
+);
+
+
+ALTER TABLE atributo_sld OWNER TO postgres;
+
+--
+-- TOC entry 274 (class 1259 OID 1882095)
+-- Name: clase; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE clase (
+    id integer NOT NULL,
+    nombre character varying NOT NULL
+);
+
+
+ALTER TABLE clase OWNER TO postgres;
+
+--
+-- TOC entry 279 (class 1259 OID 1882117)
+-- Name: dominio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dominio (
+    codigo character(4) NOT NULL,
+    etiqueta character varying NOT NULL,
+    definicion character varying,
+    tipo character varying,
+    codigo_dfdd character(3)
+);
+
+
+ALTER TABLE dominio OWNER TO postgres;
+
+--
+-- TOC entry 280 (class 1259 OID 1882123)
+-- Name: dominio_valor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dominio_valor (
+    codigo character(4) NOT NULL,
+    clave numeric NOT NULL,
+    valor character varying NOT NULL,
+    definicion character varying
+);
+
+
+ALTER TABLE dominio_valor OWNER TO postgres;
+
+--
+-- TOC entry 4628 (class 0 OID 1882015)
+-- Dependencies: 256
+-- Data for Name: atributo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY atributo (codigo, etiqueta, definicion, tipo, codigo_dfdd) FROM stdin;
+FNA1	Nombre geográfico	Nombre completo que se utiliza para designar un objeto en un mapa o carta. Está formado por el término genérico y el término específico. Ejemplo: río Mendoza.	Cadena de caracteres	FNA
+FNA2	Nombre geográfico 2	Nombre completo que se utiliza para designar un objeto en un mapa o carta. Está formado por el término genérico y el término específico. Ejemplo: río Mendoza.	Cadena de caracteres	FNA
+CER	Código de estación RAMSAC	Código alfanumérico que identifica a cada estación GPS/GNSS permanente de la Red RAMSAC.	Cadena de caracteres	\N
+TIS	Tipo de isla	Clasificación de isla según las características de la masa de agua que la rodea.	Cadena de caracteres	\N
+OBJETO	Leyenda	\N	\N	\N
+AEL	Altura elipsoidal	Altura elipsoidal referida al marco de referencia geodésico nacional.	Numérico	-  
+AI1	Año de instalación	Establecimiento del año de instalación de una estación GPS/GNSS permanente de RAMSAC.	Fecha	-  
+ALT	Altitud	Altura de elevación respecto al nivel medio del mar (cota).	Numérico	-  
+AM1	Año de medición	Establecimiento del año de medición de un pilar geodésico.	Fecha	-  
+AVU	Altura de vuelo	Distancia que existe entre el punto de vista o centro óptico de la cámara aérea y el terreno.	Numérico positivo	-  
+BA1	Código BAHRA	Código correspondiente a la Base de Asentamientos Humanos de la República Argentina.	Cadena de caracteres	-  
+CDH	Característica de hoja	Código que recibe cada unidad en la que se subdivide el territorio a los fines de la representación cartográfica	Cadena de caracteres	-  
+CFO	Cantidad de fotogramas	Número que representa la cantidad total de fotogramas que componen un recorrido.	Numérico entero positivo	-  
+CMA	Código de malla	Identificación alfanumérica de la malla formada pon un número comprendido entre 0 y 9 y/o una letra entre A y P	Cadena de caracteres	-  
+CMR	Cámara	Marca y modelo del dispositivo de captura de las imágenes fotográficas.	Cadena de caracteres	-  
+COO	Cota oficial	Altura ortométrica referida al sistema de referencia vertical nacional.	Numérico	-  
+CRE	Código de recorrido	Identificación del recorrido según el código de cuadrante, la ubicación del rollo y el código del rollo.	Cadena de caracteres	-  
+CRO	Código de rollo	Identificación numérica única de cada rollo.	Cadena de caracteres	-  
+CRV	Valor de curva de nivel	Valor específico asignado a la curva de nivel de elevación o de profundidad.	Numérico	CRV
+DDU	Descripción de ubicación	Reseña de la localización de un objeto geográfico.	Cadena de caracteres	-  
+DEN	Densificación POSGAR	Código alfanumérico que identifica a puntos pertenecientes a la Red Densificación POSGAR.	Cadena de caracteres	-  
+DIF	Distancia focal	Distancia desde el plano focal, donde se proyecta la imagen, hasta el foco del objetivo.	Numérico	-  
+EDV	Escala de vuelo	Escala de la fotografía, la cual relaciona el tamaño de la imagen con el tamaño real del objeto, dependiendo de la altura de vuelo de la cámara aérea sobre el terreno y la distancia focal de la lente de la cámara. 	Numérico	-  
+EGL	Elevación vertical relativa	Distancia vertical respecto a un plano relativo de referencia. 	Numérico	EGL
+EPS	Código EPSG/SRID 	Código publicado por el European Petroleum Survey Group.	Numérico entero corto	-  
+EQV	Equidistancia vertical	Distancia existente en un plano vertical entre dos curvas de nivel.	Numérico	EQV
+FDC	Fuente de captura	Identificación del nombre y tipo de fuente utilizada para capturar la información. Puede incluir fecha y otros datos adicionales.	Cadena de caracteres	-  
+FDD	Fecha	Indicación del año, mes y día de toma del dato fuente. Acorde al formato establecido en la Norma ISO 8601:2000 5.2.1.1, donde [AAAA] representa un año calendario, [MM] el número ordinal de un mes natural en el año calendario, [DD] el número ordinal de un día dentro del mes calendario. 	Cadena de caracteres	FDD
+FDE	Fotograma desde	Numeración del primer fotograma de un recorrido. Se forma con el código de malla, el código de recorrido y el código de foto.	Numérico	-  
+FEO	Orientación del objeto	Distancia angular medida desde el norte geográfico (0°) en sentido horario. Establece el patrón lineal del objeto para su representación cartográfica. 	Numérico	FEO
+FHA	Fotograma hasta	Numeración del último fotograma de un recorrido. Se forma con el código de malla, el código de recorrido y el código de foto.	Numérico	-  
+FNA	Nombre geográfico	Nombre completo que se utiliza para designar un objeto en un mapa o carta. Está formado por el término genérico y el término específico. Ejemplo: río Mendoza.	Cadena de caracteres	FNA
+GNA	Término genérico	Parte del nombre geográfico que indica el tipo de objeto que identifica. Ejemplo: río, monte, glaciar, establecimiento.	Cadena de caracteres	GNA
+GSF	Gravedad oficial	Valor gravimétrico referido al sistema de referencia gravimétrico nacional.	Numérico	GSF
+IN1	Código INDEC	Código único de vías de circulación asignado por el Instituto Nacional de Estadística y Censos de la República Argentina.	Cadena de caracteres	-  
+LAA	Latitud salida	Coordenadas geográficas de latitud que indican el final de un recorrido.	Numérico	-  
+LAE	Latitud entrada	Coordenadas geográficas de latitud que indican el inicio de un recorrido.	Numérico	-  
+LAG	Latitud grados	Grados sexagesimales de la latitud de un punto.	Numérico	-  
+LAM	Latitud minutos	Minutos sexagesimales de la latitud de un punto.	Numérico	-  
+LAS	Latitud segundos	Segundos sexagesimales de la latitud de un punto.	Numérico	-  
+LOE	Longitud entrada	Coordenadas geográficas de longitud que indican el inicio de un recorrido.	Numérico	-  
+LGR	Longitud grados	Grados sexagesimales de la longitud de un punto.	Numérico	-  
+LOM	Longitud minutos	Minutos sexagesimales de la longitud de un punto.	Numérico	-  
+LOS	Longitud segundos	Segundos sexagesimales de la longitud de un punto.	Numérico	-  
+LSS	Longitud salida	Coordenadas geográficas de longitud que indican el final de un recorrido.	Numérico	-  
+LTN	Contador de carriles	Número total de carriles independientes o paralelos, incluyendo ambas direcciones. 	Número	LTN
+NA3	Código de fotograma	Identificación del fotograma formada por el código de malla, código de recorrido y número de foto. El código de recorrido contiene el código de cuadrante, la ubicación del rollo y el código de rollo.	Cadena de caracteres	NA3
+NAM	Término específico	Parte de un nombre geográfico que acompaña al término genérico y que identifica e individualiza un objeto geográfico determinado. Ejemplo: Paraná en río Paraná; Upsala en glaciar Upsala; Las Marías en establecimiento Las Marías; Esperanza en el caso de bahía Esperanza.	Cadena de caracteres	NAM
+PA1	PASMA 1	Código alfanumérico que identifica puntos pertenecientes a la Red PASMA.	Cadena de caracteres	-  
+PA2	PASMA 2	Código alfanumérico que identifica puntos pertenecientes a la Red PASMA.	Cadena de caracteres	-  
+PA3	PASMA 3	Código alfanumérico que identifica puntos pertenecientes a la Red PASMA.	Cadena de caracteres	-  
+PR1	Provincial 1	Código alfanumérico que identifica puntos pertenecientes a la Red Geodésica Provincial.	Cadena de caracteres	-  
+PR2	Provincial 2	Código alfanumérico que identifica puntos pertenecientes a la Red Geodésica Provincial.	Cadena de caracteres	-  
+PR3	Provincial 3	Código alfanumérico que identifica puntos pertenecientes a la Red Geodésica Provincial.	Cadena de caracteres	-  
+PSG	POSGAR	Código alfanumérico que identifica puntos pertenecientes a la Red POSGAR.	Cadena de caracteres	-  
+RNI	Red de nivelación	Código alfanumérico que identifica puntos de nivelación pertenecientes a la red geocéntrica.	Cadena de caracteres	-  
+RTN	Designación de red vial	Identificación de una red vial.	Cadena de caracteres	RTN
+SAG	Autoridad de fuente	Nombre de la autoridad responsable de la información utilizada.	Cadena de caracteres	SAG
+TAO	Tipo de accidente submarino	Clasificación del relieve submarino.	Cadena de caracteres	-  
+ULV	Última visita	Fecha de la última visita realizada al punto geodésico,  acorde al formato establecido en la Norma ISO 8601:2000 5.2.1.1, donde [AAAA] representa un año calendario, [MM] el número ordinal de un mes natural en el año calendario, [DD] el número ordinal de un día dentro del mes calendario.	Cadena de caracteres	-  
+\.
+
+
+--
+-- TOC entry 4629 (class 0 OID 1882021)
+-- Dependencies: 257
+-- Data for Name: atributo_leyenda; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY atributo_leyenda (tabla, codigo, orden) FROM stdin;
+puntos_de_asentamientos_y_edificios	fna	1
+lineas_de_aguas_continentales	fna	1
+areas_de_aguas_continentales	fna	1
+puntos_de_defensa_y_seguridad	fna	1
+salud	fna	1
+puntos_de_ciencia_y_educacion	fna	1
+areas_de_ciencia_y_educacion	fna	1
+areas_de_defensa_y_seguridad	fna	1
+cultura_y_religion	fna	1
+areas_de_recreacion	fna	1
+puntos_de_recreacion	fna	1
+puntos_de_equipamiento	fna	1
+puntos_de_transporte_aereo	fna	1
+puntos_de_cruces_y_enlaces	fna	1
+puntos_de_transporte_ferroviario	fna	1
+puntos_de_transporte_fluvial_lacustre_y_maritimo	fna	1
+controles	fna	1
+areas_de_asentamientos_y_edificios	fna	1
+infraestructura_de_transporte	fna	1
+\.
+
+
+--
+-- TOC entry 4630 (class 0 OID 1882027)
+-- Dependencies: 258
+-- Data for Name: atributo_quitar; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY atributo_quitar (codigo) FROM stdin;
+created_us
+created_da
+last_edite
+shape_star
+shape_stle
+\.
+
+
+--
+-- TOC entry 4631 (class 0 OID 1882033)
+-- Dependencies: 259
+-- Data for Name: atributo_sld; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY atributo_sld (tabla, codigo) FROM stdin;
+puntos_de_asentamientos_y_edificios	ca1
+\.
+
+
+--
+-- TOC entry 4632 (class 0 OID 1882095)
+-- Dependencies: 274
+-- Data for Name: clase; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY clase (id, nombre) FROM stdin;
+4	Industria y servicios
+7	Vegetación natural y cultivo
+1	Geodesia y demarcación
+2	Hábitat e infraestructura social
+3	Hidrografía y oceonografía
+6	Transporte
+5	Relieve y suelo
+\.
+
+
+--
+-- TOC entry 4633 (class 0 OID 1882117)
+-- Dependencies: 279
+-- Data for Name: dominio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY dominio (codigo, etiqueta, definicion, tipo, codigo_dfdd) FROM stdin;
+ATV 	Tipo de tránsito aéreo	Tipo de tránsito aéreo según su actividad sea civil o militar.	Cadena de caracteres	ATV
+BCP 	Tipo de puesto de control	Clasificación realizada en base a las características de las oficinas que controlan el paso de vehículos y/o personas, y declarar y/o inspeccionar los bienes que transportan.	Cadena de caracteres	BCP
+BSC 	Tipo de puente	Clasificación de acuerdo al diseño de la estructura o superestructura de un puente.	Cadena de caracteres	BSC
+CA1 	Función político administrativa	Importancia de una ciudad desde el punto de vista político administrativo, teniendo en cuenta la función en su mayor nivel administrativo.	Cadena de caracteres	-  
+CA2 	Categoría por población	Clasificación en categorías de rango de cantidad de habitantes según datos censales.	Cadena de caracteres	-  
+CAA 	Autoridad responsable	Clasificación de acuerdo al tipo de autoridad responsable.	Cadena de caracteres	CAA
+CCU 	Código de cuadrante	Identificación del cuadrante formada por un número arábigo comprendido entre 1 y 4.	Numérico entero positivo	-  
+CEF 	Tipo de edificio de cultura	Tipo de construcción destinada a la manifestación de expresiones culturales y artísticas.	Cadena de caracteres	CEF
+EPG 	Estado de punto geodésico	Estado constructivo o situación del punto geodésico.	Cadena de caracteres	-  
+FAA 	Fuerza armada	Fuerza Armada a la que pertenece la instalación militar.	Dominio	-  
+FOR 	Formato del fotograma	Indicador de la medida de los lados del fotograma.	Cadena de caracteres	-  
+FUC 	Uso, función	Categorización de instalaciones según su funcionamiento o uso.	Cadena de caracteres	FUC
+FUN 	Estado 	Clasificación del estado constructivo de estructuras y/o equipos que componen una instalación.	Cadena de caracteres	FUN
+GFC 	Tipo de edificio gubernamental	Clasificación del tipo de instalación gubernamental según la autoridad a cargo.	Cadena de caracteres	GFC
+HCT 	Jurisdicción de vía de transporte	Clasificación de una vía de transporte en función de la jurisdicción administrativa a la que pertenece.	Cadena de caracteres	HCT
+HQC 	Tipo de representación hipsográfica	Clasificación de la representación de las curvas de nivel de acuerdo a su origen, intervalo de representación y características morfológicas del terreno.	Cadena de caracteres	HQC
+HYP 	Régimen hidrológico	Clasificación de acuerdo a la temporalidad de la presencia de agua en la superficie terrestre.	Cadena de caracteres	HYP
+IRU 	Servicio de transporte	Propósito de traslado de un medio de transporte.	Cadena de caracteres	IRU
+JAP 	Jurisdicción de área protegida	Autoridad que tiene la jurisdicción de un área protegida.	Cadena de caracteres	-  
+LOC 	Ubicación vertical relativa	Clasificación vertical de la posición de un objeto en el terreno.	Cadena de caracteres	LOC
+MCC 	Tipo de material estructural	Clasificación del principal material constructivo de un objeto.	Cadena de caracteres	MCC
+MES 	Separación vial	Indicativo de la presencia de divisiones viales, como separaciones por medio de barreras verticales.	Booleano	MES
+MO1 	Método de obtención punto	Clasificación para la obtención de puntos acotados de acuerdo a la metodología utilizada.	Cadena de caracteres	-  
+MO2 	Método de obtención curva	Clasificación para la generación de curvas de nivel de acuerdo a la metodología utilizada.	Dominio	-  
+MRG 	Marco de referencia geodésico	Marco de referencia al cual está referida la coordenada, la altura o la gravedad del punto.	Cadena de caracteres	-  
+OVU 	Orientación de la trayectoria	Posición del vuelo respecto a los puntos cardinales.	Cadena de caracteres	-  
+PAA 	Precisión altimétrica	Precisión de la altura.	Numérico	-  
+PAL 	Tipo de marca	Tipo de marca del punto a la cual está referida la coordenada o altura de un punto.	Cadena de caracteres	-  
+PDT 	Tipo de punto acotado	Clasificación de un punto acotado según la superficie en la que es medido y su utilización en la edición cartográfica.	Cadena de caracteres	-  
+PLA 	Precisión planimétrica	Precisión planimétrica de una coordenada.	Numérico	-  
+PPC 	Tipo de central eléctrica	Clasificación del tipo de central eléctrica según su fuente de energía.	Cadena de caracteres	PPC
+PPO 	Producto	Indica el producto principal resultante de una actividad de producción, minera o agrícola.	Cadena de caracteres	PPO
+RFA 	Tipo de instalación religiosa	Clasificación del tipo de lugar destinado al culto y prédica de cualquier religión.	Cadena de caracteres	RFA
+RGC 	Trocha	Separación entre rieles, medida perpendicularmente.	Cadena de caracteres	RGC
+RRA 	Tipo de tracción	Método a través del cual se distribuye la energía en un medio de transporte.	Cadena de caracteres	RRA
+RST 	Tipo de superficie de vía	Clasificación del material de construcción de las vías de comunicación destinado para uso vial.	Cadena de caracteres	RST
+SMC 	Material de superficie	Clasificación del material de la superficie de acuerdo a su composición. 	Cadena de caracteres	SMC
+SOE 	Soporte	Medio de almacenamiento de datos.	Cadena de caracteres	-  
+SWT 	Tipo de fuente natural	Clasificación del tipo de fuente natural de agua según su origen.	Cadena de caracteres	SWT
+TA1 	Tipo de accidente costero	Clasificación de la configuración geomorfológica de la zona litoral.	Cadena de caracteres	-  
+TAP 	Tipo de área protegida	Área que por su extraordinarias belleza o riqueza en flora y fauna autóctona o en razón de un interés científico, debe ser protegida y conservada para investigaciones científicas, educación y goce de las presentes y futuras generaciones.	Cadena de caracteres	-  
+TAS 	Tipo de asentamiento	Categorización en función del tamaño y de la configuración espacial del asentamiento humano.	Cadena de caracteres	-  
+TC1 	Tipo de edificio de comunicaciones	Clasificación según tipo de comunicaciones.	Cadena de caracteres	-  
+TCC 	Tipo de suelo consolidado	Clasificación referida particularmente al tipo de rocas.	Cadena de caracteres	-  
+TCP 	Tipo de círculo polar	Clasificación de cada uno de los paralelos que representan los círculos polares Ártico y Antártico.	Cadena de caracteres	-  
+TDA 	Tipo de antena	Clasificación de antena según su uso.	Cadena de caracteres	-  
+TDH 	Tipo de hito	Clasificación de hito según su ubicación	Cadena de caracteres	-  
+TDU 	Tipo de ducto	Clasificación de ducto por material que transporta.	Cadena de caracteres	-  
+TEF 	Tipo de estación	Clasificación del lugar donde regularmente se detienen los trenes y admiten viajeros y/o mercancías.	Cadena de caracteres	-  
+TEN 	Tipo de tensión	Clasificación de línea para transporte o distribución de energía eléctrica de acuerdo a su tensión nominal.	Cadena de caracteres	-  
+TES 	Tipo de edificio de seguridad	Clasificación de edificios de seguridad según la autoridad a cargo.	Cadena de caracteres	-  
+TGG 	Tipo de suelo congelado	Clasificación de suelos cuya dureza aumenta con el congelamiento.	Cadena de caracteres	-  
+TGO 	Tipo de gravedad oficial	Clasificación del valor de la gravedad según el método utilizado para su cálculo.	Cadena de caracteres	-  
+THH 	Tipo de humedal	Clasificación según características geomorfológicas, hidrológicas y ecosistémicas.	Cadena de caracteres	-  
+TI1 	Tipo de base antártica	Clasificación de la base en función del período en el que se encuentra en actividad.	Cadena de caracteres	-  
+TIN 	Tipo de instalación deportiva	Clasificación de una instalación, ya sea deportiva o para esparcimiento.	Cadena de caracteres	-  
+TLG 	Tipo de geoforma	Clasificación de una geoforma de acuerdo sus características geomorfológicas.	Cadena de caracteres	-  
+TLQ 	Tipo de línea de quiebre	Línea que indica el tipo de cambio de la orientación de la pendiente. También es conocida como breakline. 	Cadena de caracteres	-  
+TMA 	Tipo de manzana	Clasificación según el nivel de presencia de edificaciones.	Cadena de caracteres	-  
+TP1 	Tipo de polo	Clasificación de cada uno de los dos puntos más septentrional y más austral de la superficie terrestre, opuestos entre sí, en función del hemisferio donde se encuentran.	Cadena de caracteres	-  
+TPL 	Tipo de pileta	Clasificación de piletas de depósito de líquidos industriales y orgánicos según su tratamiento.	Cadena de caracteres	-  
+TRO 	Tipo de rompeolas	Tipo de muro o pared de contención según su ubicación.	Cadena de caracteres	-  
+TSN 	Tipo de suelo no consolidado	Se refiere particularmente a los sedimentos y suelos en sentido amplio.	Cadena de caracteres	-  
+TTR 	Tipo de trópico	Clasificación de cada uno de los dos círculos imaginarios principales de la esfera celeste paralelos al Ecuador.	Cadena de caracteres	-  
+TUP 	Tipo de uso de puente	Clasificación de acuerdo al modo de transporte que circula en él.	Cadena de caracteres	-  
+TYP 	Tipo de vía de transporte	Clasificación de la vía de transporte en base a su diseño constructivo. Se refiere a los carriles, su distribución y características complementarias.	Cadena de caracteres	TYP
+TZ1 	Denominación de zona de frontera	Denominación de la zona adyacente al límite internacional, que constituye una zona de seguridad destinada a complementar las previsiones territoriales de la defensa nacional y/o un área prioritaria para su desarrollo.	Cadena de caracteres	-  
+TZZ 	Tipo de zona de frontera	Clasificación de la zona adyacente al límite internacional, que constituye una zona de seguridad destinada a complementar las previsiones territoriales de la defensa nacional y/o un área prioritaria para su desarrollo.	Cadena de caracteres	-  
+VLJ 	Validación de límite interprovincial	Tipo de validación de un límite entre provincias.	Cadena de caracteres	-  
+VLP 	Validación	Tipo de validación según la autoridad competente.	Cadena de caracteres	-  
+ISIC	Tipo de industria	Clasificación de actividad manufacturera según el Estándar Internacional de Clasificación de Industrias (ISIC).	Cadena de caracteres	-  
+\.
+
+
+--
+-- TOC entry 4634 (class 0 OID 1882123)
+-- Dependencies: 280
+-- Data for Name: dominio_valor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY dominio_valor (codigo, clave, valor, definicion) FROM stdin;
+ATV 	-2	No corresponde	\N
+BCP 	-2	No corresponde	\N
+BSC 	-2	No corresponde	\N
+CA1 	-2	No corresponde	\N
+CA2 	-2	No corresponde	\N
+CAA 	-2	No corresponde	\N
+CCU 	-2	No corresponde	\N
+CEF 	-2	No corresponde	\N
+EPG 	-2	No corresponde	\N
+FAA 	-2	No corresponde	\N
+FOR 	-2	No corresponde	\N
+FUC 	-2	No corresponde	\N
+FUN 	-2	No corresponde	\N
+GFC 	-2	No corresponde	\N
+HCT 	-2	No corresponde	\N
+HQC 	-2	No corresponde	\N
+HYP 	-2	No corresponde	\N
+IRU 	-2	No corresponde	\N
+JAP 	-2	No corresponde	\N
+LOC 	-2	No corresponde	\N
+MCC 	-2	No corresponde	\N
+MES 	-2	No corresponde	\N
+MO1 	-2	No corresponde	\N
+MO2 	-2	No corresponde	\N
+MRG 	-2	No corresponde	\N
+OVU 	-2	No corresponde	\N
+PAA 	-2	No corresponde	\N
+PAL 	-2	No corresponde	\N
+PDT 	-2	No corresponde	\N
+PLA 	-2	No corresponde	\N
+PPC 	-2	No corresponde	\N
+PPO 	-2	No corresponde	\N
+RFA 	-2	No corresponde	\N
+RGC 	-2	No corresponde	\N
+RRA 	-2	No corresponde	\N
+RST 	-2	No corresponde	\N
+SMC 	-2	No corresponde	\N
+SOE 	-2	No corresponde	\N
+SWT 	-2	No corresponde	\N
+TA1 	-2	No corresponde	\N
+TAP 	-2	No corresponde	\N
+TAS 	-2	No corresponde	\N
+TC1 	-2	No corresponde	\N
+TCC 	-2	No corresponde	\N
+TCP 	-2	No corresponde	\N
+TDA 	-2	No corresponde	\N
+TDH 	-2	No corresponde	\N
+TDU 	-2	No corresponde	\N
+TEF 	-2	No corresponde	\N
+TEN 	-2	No corresponde	\N
+TES 	-2	No corresponde	\N
+TGG 	-2	No corresponde	\N
+TGO 	-2	No corresponde	\N
+THH 	-2	No corresponde	\N
+TI1 	-2	No corresponde	\N
+TIN 	-2	No corresponde	\N
+TLG 	-2	No corresponde	\N
+TLQ 	-2	No corresponde	\N
+TMA 	-2	No corresponde	\N
+TP1 	-2	No corresponde	\N
+TPL 	-2	No corresponde	\N
+TRO 	-2	No corresponde	\N
+TSN 	-2	No corresponde	\N
+TTR 	-2	No corresponde	\N
+TUP 	-2	No corresponde	\N
+TYP 	-2	No corresponde	\N
+TZ1 	-2	No corresponde	\N
+TZZ 	-2	No corresponde	\N
+VLJ 	-2	No corresponde	\N
+VLP 	-2	No corresponde	\N
+ISIC	-2	No corresponde	\N
+ATV 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+ATV 	8	Militar	Se realizan vuelos llevados a cabo por las Fuerzas Armadas.
+ATV 	9	Civil	Se realizan vuelos no militares.
+BCP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+BCP 	3	Aduanero	Control gubernamental, donde se recaudan los derechos de aduana, se regula el flujo de bienes y se aplican restricciones para entrar o salir del país.
+BCP 	4	Gendarmería Nacional	Puesto de GN para regular el flujo de bienes y personas y reforzar restricciones.
+BCP 	7	Policial	Puesto de Policía para regular el flujo de bienes y personas.
+BCP 	8	Inmigración	Puesto de control en un cruce para entrar o salir del país, que es reconocido por los gobiernos involucrados.
+BCP 	9	Fitosanitario	Puesto de regulación para el ingreso de productos, subproductos y derivados de origen animal, y productos agropecuarios a una región determinada.
+BSC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+BSC 	27	Colgante	Consiste en vigas o armaduras que se proyectan entre los muelles y pilares y se unen por un segmento suspendido de conexión.
+BSC 	15	Fijo	Obra de ingeniería destinada a salvar un obstáculo natural o artificial, sin alterar su posición, siendo esta inamovible.
+BSC 	33	Móvil	Tipo de puente que salva un obstáculo hidrográfico moviendo su calzada o girándola, permitiendo la circulación de embarcaciones por agua, cuando estas superan con su altura la luz del puente.
+BSC 	28	Viaducto	Tipo de puente fijo de gran desarrollo. Siempre es elevado para salvar obstáculos artificiales o naturales, como hondonadas, depresiones u obstáculos planimétricos.
+CA1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+CA1 	1	Cabecera de Departamento o Partido	Ciudad principal desde el punto de vista político administrativo en un partido o comuna.
+CA1 	2	Capital de Provincia	Ciudad principal desde el punto de vista político administrativo en una provincia. 
+CA1 	3	Capital de Nación	Ciudad principal desde el punto de vista político administrativo en una Nación.
+CA1 	4	Sin jerarquía administrativa	La ciudad no tiene una jerarquía administrativa.
+CA2 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+CA2 	1	Categoría 1	Población superior a 1.000.000 habitantes.
+CA2 	2	Categoría 2	Población de 500.001 a 1.000.000 habitantes.
+CA2 	3	Categoría 3	Población de 100.001 a 500.000 habitantes.
+CA2 	4	Categoría 4	Población de 20.001 a 100.000 habitantes.
+CA2 	5	Categoría 5	Población de 5.001 a 20.000 habitantes.
+CA2 	6	Categoría 6	Población de 2.001 a 5.000 habitantes.
+CA2 	7	Categoría 7	Población de 501 a 2.000 habitantes.
+CA2 	8	Categoría 8	Población de 100 a 500 habitantes.
+CA2 	9	Categoría 9	Población inferior a 100 habitantes.
+CCU 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+CCU 	1	Cuadrante 1	Sector Noreste de la malla.
+CCU 	2	Cuadrante 2	Sector Sureste de la malla.
+CCU 	3	Cuadrante 3	Sector Suroeste de la malla.
+CCU 	4	Cuadrante 4	Sector Noroeste de la malla.
+CEF 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+CEF 	11	Teatro	Edificación destinada a la representación de obras dramáticas o a otros espectáculos públicos propios de la escena.
+CEF 	2	Museo	Edificación permanente, sin fines de lucro, al servicio de la sociedad y abierta al público, que adquiere, conserva, estudia, expone y difunde el patrimonio material e inmaterial de la humanidad con fines de estudio, educación y recreo.
+CEF 	19	Centro cultural	Edificación donde se realizan actividades sociales y culturales diversificadas, con dotación para realizar actividades de difusión, formación y creación en diferentes ámbitos de la cultura, así como dinamización de entidades.
+CEF 	12	Biblioteca	Edificación cuya función consiste en mantener una colección y facilitar el uso de los documentos necesarios para satisfacer las necesidades de información, investigación, educación y ocio de sus lectores.
+EPG 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+EPG 	1	Sin novedad	El punto geodésico no presenta novedad.
+EPG 	2	Destruido	El punto geodésico se encuentra destruido.
+EPG 	3	Inclinado	El punto geodésico se encuentra inclinado respecto a un plano de referencia.
+EPG 	4	No localizable	El punto geodésico no puede localizarse.
+EPG 	5	Inaccesible	El punto geodésico es localizable pero se encuentra inaccesible.
+FAA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+FAA 	1	Ejército Argentino	Componente terrestre de las Fuerzas Armadas de la República Argentina.
+FAA 	2	Armada Argentina	Componente naval de las Fuerzas Armadas de la República Argentina.
+FAA 	3	Fuerza Aérea Argentina	Componente aéreo de las Fuerzas Armadas de la República Argentina.
+FOR 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+FOR 	1	23x23	Medida estándar del fotograma de 23 cm de lado.
+FOR 	2	Otro	Medida del fotograma diferente al estándar.
+FUC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+FUC 	2	Comercial	Relativo al intercambio de mercadería o servicios, especialmente en gran escala.
+FUC 	20	Transporte de pasajeros	Relacionado al transporte de personas de un lugar a otro.
+FUC 	37	Militar	Relativo a las Fuerzas Armadas.
+FUN 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+FUN 	2	Abandonado	Equipo y/o estructuras dejados de lado, pudiendo sufrir daños o degradación.
+FUN 	4	Desmantelado	La instalación no funciona. El equipo se ha retirado, pudiendo quedar restos de la estructura.
+FUN 	6	Activo	La instalación es capaz de funcionar completamente.
+FUN 	9	En construcción	La instalación se encuentra en proceso de construcción, pero aún no es completamente funcional. Incluye la etapa de reparación.
+GFC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+GFC 	1	Casa de gobierno	Asiento del Poder Ejecutivo de la Nación o Provincia.
+GFC 	2	Congreso	Asiento del Poder Legislativo de la Nación o Provincia. También se lo llama Legislatura.
+GFC 	9	Tribunales	Asiento de la autoridad del Poder Judicial de la Nación o Provincia.
+GFC 	3	Municipalidad, comuna	Asiento de la autoridad comunal.
+GFC 	17	Delegación municipal, delegación comunal	Sede de descentralización del gobierno local.
+GFC 	5	Ministerio	Organismo ejecutivo del Estado de más alta jerarquía, inmediatamente por debajo del Presidente de la Nación en el caso del gobierno nacional, y de los gobernadores en el caso de las provincias, y del Jefe de Gobierno de la Ciudad de Buenos Aires, en el caso de la Ciudad Autónoma de Buenos Aires.
+GFC 	19	Juzgado de Paz	Asiento del Juez de Paz.
+GFC 	20	Registro del estado civil y capacidad de las personas	Organismo donde se asientan las actividades inherentes al registro del estado civil y la capacidad de las personas, de acuerdo a las disposiciones de leyes y decretos nacionales, provinciales y sus reglamentaciones, a fin de obtener su registración e identificación. Registra hechos vinculados al estado civil o la capacidad de las personas, como inscripción de nacimientos, matrimonios, defunciones, toma razón de aquellos hechos y actos jurídicos de carácter complementario, como adopciones, reconocimientos, divorcios, rectificaciones, anulaciones de registros y toda otra situación jurídicamente relevante que incida en las constancias registrales.
+GFC 	21	Centro cívico	Equipamiento de carácter público para la prestación de servicios y actividades socioculturales, que actúa como lugar polivalente para facilitar el encuentro de personas, con el fin de fomentar la participación activa de la ciudadanía.
+GFC 	22	Centro integrador comunitario	Espacio público de integración comunitaria, construido para el encuentro y la participación de diferentes actores que trabajan de modo intersectorial y participativo con el objetivo de promover el desarrollo local en pos de la inclusión social y del mejoramiento de la calidad de vida de las comunidades. Es una instancia de articulación entre el Gobierno nacional, provincial, municipal, organizaciones sociales y políticas y la sociedad civil.
+GFC 	23	Otro edificio gubernamental	Hace referencia a otro tipo de edificio gubernamental no contemplado en los anteriores dominios. En este caso, los atributos de toponimia podrán aclararlo. Ejemplo: comisionado comunal.
+HCT 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+HCT 	1	Ruta Nacional	Vía de jurisdicción nacional. Forma parte de la red vial troncal del país.
+HCT 	2	Ruta Provincial	Vía de jurisdicción provincial.
+HCT 	4	Camino terciario	Vía de jurisdicción local, sea municipal o privada.
+HCT 	5	Camino vecinal	Vía de jurisdicción vecinal.
+HQC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+HQC 	1	Directriz	Se traza cada cierto número de curvas intermedias, dependiendo de la equidistancia.
+HQC 	2	Intermedia	Se encuentra contenida entre curvas directrices y depende de la equidistancia.
+HQC 	16	Auxiliar	Curva de nivel que se utiliza para describir las características importantes, que no son mostradas por las curvas de nivel directrices e intermedias porque no es posible su trazado. Se diferencia de la figurativa en que con la auxiliar, si bien uno se puede acotar bien, no da la equidistancia.
+HQC 	4	Figurativa	Curva que representa la configuración estimada de elevaciones entre curvas de nivel, y se utiliza cuando no se tiene la cota real del terreno.
+HQC 	8	Elevación importante	Curva de nivel cerrada que delimita un área localizada de elevación más alta que el terreno circundante en el cual no hay ningún drenaje superficial.
+HQC 	80	De nieve directriz	Curva de nivel que representa la configuración de un relieve cubierto por nieve, que se traza cada cierto número de curvas intermedias, dependiendo de la equidistancia.
+HQC 	81	De nieve intermedia	Curva de nivel que representa la configuración de un relieve cubierto por nieve, que se encuentra contenida entre curvas directrices y depende de la equidistancia.
+HYP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+HYP 	1	Perenne	Cuando lleva o contiene agua en forma permanente.
+HYP 	2	Intermitente	Cuando lleva o contiene agua temporalmente.
+IRU 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+IRU 	1	Carga	Transporte utilizado para trasladar carga.
+IRU 	6	Pasajeros	Transporte utilizado para trasladar pasajeros.
+IRU 	8	Recreación	Transporte utilizado con fines recreativos.
+IRU 	10	Carga y pasajeros	Transporte utilizado para trasladar carga y pasajeros.
+ISIC	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+ISIC	10	Elaboración de productos alimenticios	Comprende la elaboración de los productos de la agricultura, la ganadería, la silvicultura y la pesca para convertirlos en alimentos y bebidas para consumo humano o animal, e incluye la producción de varios productos intermedios que no son directamente productos alimenticios. Se organiza por actividades que se realizan con los distintos tipos de productos: carne, pescado, fruta, legumbres y hortalizas, grasas y aceites, productos lácteos, productos de molinería, alimentos preparados para animales y otros productos alimenticios y bebidas. 
+ISIC	11	Elaboración de bebidas	Comprende la elaboración de bebidas no alcohólicas y agua mineral, la elaboración de bebidas alcohólicas obtenidas principalmente por fermentación, como cerveza y vino, y la elaboración de bebidas alcohólicas destiladas.No se incluyen la producción de jugos de frutas y de hortalizas, la elaboración de bebidas a base de leche, ni la elaboración de productos de café, té y mate.
+ISIC	12	Elaboración de productos de tabaco	Comprende la elaboración de un producto agrícola, el tabaco, en forma adecuada para su consumo final.
+ISIC	13	Fabricación de productos textiles	Comprende la preparación e hilatura de fibras textiles y la tejedura y el acabado de productos textiles y prendas de vestir, así como la fabricación de artículos confeccionados de materiales textiles, excepto prendas de vestir. 
+ISIC	14	Fabricación de prendas de vestir	Comprende todas las actividades de confección, en todo tipo de materiales (cuero, tela, tejidos de punto y ganchillo, etc.), de todo tipo de prendas de vestir y accesorios. 
+ISIC	15	Fabricación de productos de cuero y productos conexos	Comprende el adobo y teñido de pieles, la transformación de pieles en cuero mediante operaciones de curtido y adobo y la fabricación de productos acabados de cuero. Abarca también la fabricación de productos similares a partir de otros materiales (cueros de imitación o sucedáneos de cuero), como calzado de caucho, maletas de materiales textiles, entre otros.
+ISIC	16	Producción de madera y fabricación de productos de madera y corcho, excepto muebles	Comprende la fabricación de productos de madera, como maderos, tableros contrachapados, hojas de madera para enchapado, contenedores de madera, pisos de madera, armazones de madera y edificios prefabricados de madera. Los procesos de producción comprenden el aserrado, la acepilladura, el recorte, el laminado y el ensamblaje de productos de madera a partir de troncos que se cortan en trozos o maderos que se pueden volver a cortar o a los que se puede dar forma con tornos u otras herramientas. 
+JAP 	5	Privado	El área protegida es de jurisdicción privada.
+ISIC	17	Fabricación de papel y de productos de papel	Comprende la fabricación de pasta de madera, papel y productos de papel. La fabricación de esos productos está agrupada porque abarca una serie de procesos conectados verticalmente. Es frecuente que una misma unidad realice más de una de esas actividades. Se trata esencialmente de tres actividades: la fabricación de pasta de madera entraña la separación de las fibras de celulosa de otras impurezas de la madera o el papel usado; la fabricación de papel consiste en el afeltrado de esas fibras hasta convertirlas en una lámina. 
+ISIC	18	Impresión y reproducción de grabaciones	Comprende la impresión de productos, como periódicos, libros, revistas, formularios comerciales, tarjetas de felicitación y otros materiales, y actividades de apoyo conexas, como encuadernación, servicios de preparación de placas y formación de imágenes a partir de datos.
+ISIC	19	Fabricación de coque y productos de la refinación del petróleo	Comprende la transformación del petróleo crudo y el carbón en productos utilizables. El proceso principal es la refinación del petróleo, que entraña la separación del petróleo crudo en los distintos productos. Comprende la fabricación de gases, como etano, propano y butano, como productos de las refinerías de petróleo.
+ISIC	20	Fabricación de sustancias y productos químicos	Comprende la transformación de materias primas orgánicas e inorgánicas mediante un proceso químico y la formación de productos.
+ISIC	21	Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos.	Comprende la fabricación de productos farmacéuticos básicos y preparados farmacéuticos. Se incluye también la fabricación de sustancias químicas medicinales y productos botánicos.
+ISIC	22	Fabricación de productos de caucho y de plástico	Comprende la fabricación de productos de caucho y de plástico.La división se define por las materias primas utilizadas en el proceso de fabricación, lo que no significa que se clasifique en ella la fabricación de todos los productos hechos con esos materiales.
+ISIC	23	Fabricación de otros productos minerales no metálicos	Comprende la fabricación de vidrio y productos de vidrio, productos de cerámica, losetas y productos de arcilla cocida, y cemento y yeso desde las materias primas hasta los artículos acabados. Se incluyen también el corte, la talla y el acabado de la piedra, secaderos de sal y otros productos minerales. 
+ISIC	24	Fabricación de metales comunes	Comprende las actividades de fundición y/o refinación de metales ferrosos y no ferrosos a partir de mineral y escorias de hierro, por medio de técnicas electrometalúrgicas y de otras técnicas metalúrgicas. Abarca también la fabricación de aleaciones y superaleaciones de metales mediante la introducción de otros elementos químicos en los metales puros.
+ISIC	25	Fabricación de productos elaborados de metal, excepto maquinaria y equipo	Comprende la fabricación de productos de metal “puro” (como partes, recipientes y estructuras) que normalmente tienen una función estática, inamovible. También se incluye la fabricación de armas y municiones.
+ISIC	26	Fabricación de productos de informática, de electrónica y de óptica	Comprende la fabricación de ordenadores, equipo periférico, equipo de comunicaciones y productos electrónicos similares, así como la fabricación de componentes para esos productos. También se incluye la fabricación de aparatos electrónicos de consumo, equipo de medición, prueba, navegación y control, equipo de irradiación, equipo electrónico de uso médico y terapéutico, instrumentos y equipo ópticos y soportes magnéticos y ópticos.
+ISIC	27	Fabricación de equipo eléctrico	Comprende la fabricación de productos que se utilizan para generar, distribuir y utilizar energía eléctrica. También se incluye la fabricación de lámparas eléctricas, equipo de señales y aparatos eléctricos de uso doméstico. No se incluye la fabricación de productos electrónico
+ISIC	28	Fabricación de maquinaria y equipo n.c.p.	Comprende la fabricación de maquinaria y equipo que actúan de manera independiente sobre los materiales ya sea mecánica o térmicamente, o que realizan operaciones sobre los materiales (como el manejo, el rociado, el pesado o el embalado), incluidos sus componentes mecánicos que producen y aplican fuerza, y cualquier parte primaria fabricada especialmente. Se incluye la fabricación de aparatos fijos y móviles o manuales, destinados a ser utilizados en actividades industriales, de construcción y de ingeniería civil, en la agricultura o en el hogar. Se incluye también la fabricación de equipo especial para el trasporte de pasajeros o de carga en zonas delimitadas. Se incluye también la fabricación de otros tipos de maquinaria de uso especial no clasificados en otra parte, se utilicen o no en un proceso de manufactura, como equipo para atracciones de feria, equipo automático para boleras, etc.
+ISIC	29	Fabricación de vehículos automotores, remolques y semirremolques	Comprende la fabricación de vehículos automotores para el transporte de pasajeros o de carga. Se incluye la fabricación de diversas partes, piezas y accesorios, así como la fabricación de remolques y semirremolques.
+ISIC	30	Fabricación de otro equipo de transporte	Comprende la fabricación de equipo de transporte, como la construcción de buques y otras embarcaciones, la fabricación de locomotoras y material rodante, aeronaves y naves espaciales y la fabricación de partes y piezas de los mismos.
+ISIC	31	Fabricación de muebles	Comprende la fabricación de muebles y productos conexos de cualquier material, excepto piedra, hormigón y cerámica. Los procesos utilizados en la fabricación de muebles son métodos estandarizados para conformar materiales y ensamblar componentes, como el corte, el moldeo y la laminación. 
+ISIC	32	Otras industrias manufactureras	Comprende la fabricación de diversos productos no clasificados en otra parte. Puesto que se trata de una división residual, los procesos de producción, los materiales utilizados como insumos y la utilización de los productos resultantes pueden variar considerablemente, y no se han aplicado los criterios habitualmente empleados para agrupar las clases en divisiones.
+ISIC	33	Reparación e instalación de maquinaria y equipo	Comprende las actividades de reparación de productos para volver a poner en funcionamiento maquinaria, equipo y otros productos. Se incluyen las actividades de mantenimiento (servicio) general u ordinario de esos productos para garantizar que funcionen eficientemente y prevenir averías y reparaciones innecesarias.
+ISIC	100	Fabricación de ladrillos	Comprende la fabricación de ladrillos y productos conexos, incluyendo las ladrilleras.
+JAP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+JAP 	1	Internacional	El área protegida es de jurisdicción internacional.
+JAP 	2	Nacional	El área protegida es de jurisdicción nacional.
+JAP 	3	Provincial	El área protegida es de jurisdicción provincial.
+JAP 	4	Municipal	El área protegida es de jurisdicción municipal.
+LOC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+LOC 	40	Bajo la superficie	Enterrado bajo el terreno.
+LOC 	44	En la superficie	Localizado a nivel del terreno.
+LOC 	45	Sobre la superficie	Localizado por encima de la superficie del terreno.
+LOC 	48	En trinchera	Depresión del terreno natural o como resultado de efectuar un corte en el mismo para el asentamiento de una vía de comunicación, quedando esta situada entre dos paredes (taludes) para permitir la circulación a una altura inferior al perfil orográfico.
+LOC 	49	En terraplén	Macizo de tierra que se eleva artificialmente para hacer una defensa, vía de comunicación u otra obra semejante.
+MCC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+MCC 	9	Mampostería	El material predominante es ladrillos colocados a mano.
+MCC 	64	Metálico	El material predominante es hierro, aluminio u otros metales.
+MCC 	77	Hormigón	El material predominante es cemento, arena u otro árido, material de mortero, con un armazón de hierro.
+MCC 	138	Madera	El material predominante es madera de cualquier tipo.
+MES 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+MES 	0	Falso	El objeto no posee separación vial.
+MES 	1	Verdadero	El objeto sí posee separación vial.
+MO1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+MO1 	1	Por restitución	Puntos obtenidos por trazado manual, a través de la interpretación visual de la morfología a partir de pares estereoscópicos.
+MO1 	2	Por plancheta	Puntos generados en el terreno con instrumental topográfico de plancheta. Se tiene en cuenta por la información histórica que aporta.
+MO1 	3	Por Modelo Digital de Elevaciones	Puntos generados a partir del Modelo Digital de Elevaciones del IGN MDE-Ar.
+MO2 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+MO2 	1	Por restitución	Curvas obtenidas por trazado manual, a través de la interpretación visual de la morfología a partir de pares estereoscópicos.
+MO2 	2	Por Modelo Digital de Elevaciones	Curvas generadas con algoritmos matemáticos a partir de un Modelo Digital de Elevaciones.
+MO2 	3	Por plancheta	Curvas generadas en el terreno con instrumental topográfico de plancheta. Se tiene en cuenta por la información histórica que aporta.
+MO2 	4	Por fotogrametría	Curvas generadas por interpolación de puntos acotados por técnicas fotogramétricas.
+MRG 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+MRG 	1	Altimétrico - Alta precisión	Puntos pertenecientes a líneas de nivelación que dividen al territorio nacional en polígonos cerrados o mallas y en polígonos abiertos o periféricos.
+MRG 	2	Altimétrico - Precisión	Puntos pertenecientes a líneas de nivelación que se desarrollan en el interior de las mallas generadas por las líneas de alta precisión y dividen a cada polígono en seis u ocho partes.
+MRG 	3	Altimétrico - Topográfica	Puntos pertenecientes a líneas de nivelación que densifican las mallas.
+MRG 	4	Gravimétrico - Primer orden	Puntos pertenecientes a la red gravimétrica de primer orden nacional.
+MRG 	5	Gravimétrico - Segundo orden	Puntos pertenecientes a la red gravimétrica de segundo orden nacional.
+MRG 	6	Gravimétrico - Tercer orden	Puntos pertenecientes a la red gravimétrica de tercer orden nacional.
+MRG 	7	Gravimétrico - RAGA	Puntos pertenecientes a la Red Argentina de Gravedad Absoluta (RAGA).
+MRG 	8	Gravimétrico - BACARA	Puntos pertenecientes a la antigua red de primer orden nacional: Base de Calibración de la República Argentina.
+MRG 	9	Gravimétrico - IGSN71	Puntos pertenecientes a la Red de Estandarización Gravimétrica Internacional.
+MRG 	10	Gravimétrico - Mar	Puntos gravimétricos capturados en el océano.
+MRG 	11	Gravimétrico - Aéreo	Puntos gravimétricos capturados mediante gravimetría aérea.
+MRG 	12	Geocéntrico - POSGAR07	Puntos pertenecientes a la red POSGAR07.
+MRG 	13	Geocéntrico - PASMA	Puntos pertenecientes a la red PASMA.
+MRG 	14	Geocéntrico - Provinciales	Puntos pertenecientes a las redes geodésicas provinciales.
+MRG 	15	Geocéntrico - Densificación POSGAR	Puntos pertenecientes a la red Densificación POSGAR07.
+OVU 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+OVU 	1	N	El octante geográfico se centra en el Norte.
+OVU 	2	S	El octante geográfico se centra en el Sur.
+OVU 	3	E	El octante geográfico se centra en el Este.
+OVU 	4	O 	El octante geográfico se centra en el Oeste.
+OVU 	5	NE	El octante geográfico se centra en el Noreste.
+OVU 	6	NO	El octante geográfico se centra en el Noroeste.
+OVU 	7	SE	El octante geográfico se centra en el Sudeste.
+OVU 	8	SO	El octante geográfico se centra en el Sudoeste.
+PAA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PAA 	1	0,05	Precisión de 0.05 m en la altura del punto.
+PAA 	2	0,5	Precisión de 0.50 m en la altura del punto.
+PAA 	4	5	Precisión de 5 m en la altura del punto.
+PAA 	5	15	Precisión de 15 m en la altura del punto.
+PAL 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PAL 	1	Chapa pilar	Chapa principal del punto.
+PAL 	2	Chapa exterior	Chapa exterior del punto nodal.
+PAL 	3	Chapa interior	Chapa interior del punto nodal.
+PAL 	4	Chapa eje horizontal	Ménsula empotrada en pared.
+PAL 	5	Mojón subterráneo	Mojón subterráneo enterrado próximo a pilar de nivelación.
+PAL 	6	Bulón bajo	Bulón empotrado en la base del pilar de nivelación.
+PDT 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PDT 	1	Punto acotado del terreno	Punto referido a la superficie del terreno, que no está materializado. Ejemplo: cruce de alambrados.
+PDT 	2	Punto acotado antrópico	Punto referido a una obra hecha por el hombre. Ejemplo: cruce de caminos.
+PDT 	3	Punto acotado de mayor altura	Es aquel que es utilizado en la edición cartográfica, para indicar el punto de mayor altura en cada hoja.
+PDT 	4	Punto acotado de mayor valor negativo	Es aquel que es utilizado en la edición cartográfica, para indicar el punto de menor altura en cada hoja.
+PLA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PLA 	1	0,05	Precisión de 0,05 m en la coordenada del punto.
+PLA 	2	15	Precisión de 15 m en la coordenada del punto.
+PLA 	3	500	Precisión de 500 m en la coordenada del punto.
+PLA 	4	1000	Precisión de 1000 m en la coordenada del punto.
+PPO 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PPO 	14	Cal	Sal de calcio, generalmente insoluble. Es de la naturaleza de carbonato de calcio.
+PPO 	17	Arcilla	Tierra dura de grano fino, compuesta principalmente de alumino silicatos hidratados, los cuales se vuelven mas plásticos cuando se añade agua pudiendo ser moldeada y secada.
+PPO 	18	Carbón	Mineral duro opaco de color negro o negruzco, principalmente carbonizado de la materia orgánica, que se encuentra en los estratos en o bajo la superficie de la tierra.
+PPO 	19	Canto rodado	Cantos rodados obtenidos principalmente para pavimentación y construcción.
+PPO 	26	Cobre	Metal de color rojizo que se utiliza especialmente para conductores eléctricos y como base de aleaciones.
+PPO 	50	Granito	Roca plutónica con cristales granulares, que consiste esencialmente de cuarzo, ortoclasa, feldespato y mica o hornblenda.
+PPO 	58	Hierro	Metal magnético, maleable, fácilmente oxidable.
+PPO 	66	Mármol	Piedra caliza que se ha cristalizado por metamorfismo y es capaz de ser pulida. Generalmente es de color blanco y tiene una superficie moteada.
+PPO 	83	Petróleo	Líquido oscuro y viscoso, compuesto de hidrocarburos que están presentes en algunas rocas.
+PPO 	90	Material radiactivo	Material o combinación de materiales que espontáneamente emiten radiación ionizante. Ejemplo: partículas nucleares, rayos gamma.
+PPO 	93	Roca	Piedra de cualquier tamaño.
+PPO 	95	Sal	Mineral blanco, o marrón-rojizo cuando es impuro. 
+PPO 	105	Plata	Metal precioso que se caracteriza por su color blanco brillante y gran maleabilidad y ductilidad.
+PPO 	152	Níquel	Metal duro de color blanco plateado.
+PPO 	157	Petróleo y gas natural	Mezcla de petróleo crudo y gas natural extraído de depósitos subterráneos y ha sido separada antes de su transporte y uso.
+PPO 	163	Helio	Gas de baja densidad.
+PPO 	179	Grafito	Es una modificación del carbono con una estructura laminar distinta.
+PPO 	185	Calcita	Mineral común en muchos carbonatos.
+PPO 	276	Gas natural	Mezcla de gases de hidrocarburo que se produce con los depósitos de petróleo, principalmente metano junto con varias cantidades de etano, propano, butano y otros gases.
+PPO 	284	Mineral de oro	Metal precioso que se caracteriza por su color amarillento, resistencia a la oxidación y la corrosión, y gran maleabilidad y ductilidad.
+PPO 	295	Cobalto 	Metal de transición de color gris azulado metalizado.
+PPO 	297	Carbono	En su forma pura se encuentra como diamante o grafito. No es un metal.
+PPO 	356	Mineral uranio	Elemento químico metálico, radiactivo y pesado.
+PPO 	263	Bórax	Roca sedimentaria química constituida por sulfato cálcico acuoso.
+PPO 	303	Litio	Metal alcalino de un color gris-blanco plateado.
+PPO 	126	Cinc	Elemento químico metálico azulado-blanco brillante duro, que se obtiene de la esfalerita y de otros minerales.
+PPO 	59	Plomo	Metal suave, pesado, maleable, gris azulado que ocurre en la galena y otros minerales.
+PPC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+PPC 	1	Hidroeléctrica	Producción de electricidad en una usina a base de la energía obtenida del agua embalsada y turbinada.
+PPC 	2	Nuclear	Producción de energía en una central a partir de reacción nuclear.
+PPC 	5	Eólica	Electricidad generada a partir del viento por aerogeneradores.
+PPC 	3	Fotovoltaica (solar)	Producción de energía en paneles fotovoltaicos, donde se transforma la radiación solar en electricidad. 
+PPC 	4	Geotérmica	Generación de energía eléctrica a partir del aprovechamiento del calor interno de la tierra.
+PPC 	7	Termoeléctrica	Energía generada por el aprovechamiento de la combustión de carbón, gas y biogás.
+RFA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+RFA 	15	Templo	Edificio público destinado al culto y prédica de cualquier religión, donde se asienta la autoridad religiosa.
+RFA 	2	Capilla	Edificio para orar, de jerarquía inferior al templo, y que no constituye asiento de autoridad eclesiástica.
+RFA 	21	Ermita	Lugar, generalmente descampado, en donde las personas se congregan para orar frente a imágenes.
+RFA 	19	Monasterio	Instalación que aloja a una comunidad que adopta un estilo de vida religioso para la oración.
+RGC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+RGC 	1	Ancha	La separación entre rieles es de 1,676m.
+RGC 	2	Angosta o métrica	La separación entre rieles es de 1m.
+RGC 	3	Media	La separación entre rieles es de 1,435m.
+RGC 	7	Económica	La separación entre rieles es de 0,60m o 0,75m.
+RRA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+RRA 	1	Tercer riel	La energía eléctrica se transfiere utilizando un tercer carril electrificado.
+RRA 	3	Catenarias	La energía eléctrica se transfiere desde una línea eléctrica aérea.
+RRA 	4	Diésel	La energía eléctrica no es provista al tren. La energía es generada por la propia máquina.
+RRA 	5	Diésel y electrificado	La energía eléctrica se transfiere utilizando un motor diésel conectado a un generador eléctrico.
+RST 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TAS 	8	Barrio	Subdivisión de un pueblo o ciudad, de nombre conocido. Generalmente registrado en la normativa del gobierno local.
+TC1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+RST 	1	Pavimentado	Vía que posee una capa constituida por uno o más materiales, colocados sobre el terreno natural o nivelado para aumentar su resistencia y servir para la circulación de personas o vehículos. Los materiales utilizados son el hormigón y las mezclas asfálticas.
+RST 	19	Consolidado	Vía cuya superficie está formada por una capa de material (ripio, grava, broza, conchilla, tosca) que permite la transitabilidad permanente.
+RST 	13	Tierra 	Vía cuya superficie está formada por terreno natural, sin ningún material agregado que lo consolide.
+SMC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+SMC 	46	Grava	Material constituido por la acción de acumulación marina, de un tamaño de grano mayor a la arena.
+SMC 	88	Arena	Material granulado formado por pequeños fragmentos erosionados de roca, cuyas partículas sedimentarias son más finas que la grava y más largas que un grano de limo grueso.
+SMC 	89	Restinga	Planicie de roca en forma de lengua y adosada a la costa, donde el mar ejerce su acción de erosión sobre roca preexistente. Aflora en marea baja.
+SOE 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+SOE 	1	Digital vectorial	Los datos son almacenados en un soporte digital vectorial.
+SOE 	2	Digital ráster	Los datos son almacenados en un soporte digital ráster.
+SOE 	3	Analógico	Los datos son almacenados en un soporte analógico.
+SOE 	4	Película	Los datos son almacenados en una película.
+SWT 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+SWT 	2	Fuente termal	Fuente natural de agua caliente.
+SWT 	4	Manantial	Vertiente de agua natural que emana de la roca o del suelo. 
+SWT 	5	Ojo de agua	Pequeña depresión de tierra en la que el agua se acumula.
+SWT 	7	Fuente mineral	Fuente mineral de agua.
+TA1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TDU 	1	Mineraloducto	Ducto destinado al transporte de los concentrados del mineral de extracción.
+TA1 	1	Mar	Cuerpo de agua salada de menor extensión que los océanos, cercado de continentes y generalmente conectado con un océano o con un mar mayor.
+TA1 	2	Canal marítimo	Sector estrecho de mar que separa dos porciones del mismo continente. Ejemplo: Canal de Beagle.
+TA1 	3	Archipiélago	Conjunto de islas de diversos tamaños, en el mar, corriente de agua o espejo de agua, no muy distantes unas de otras.
+TA1 	4	Delta	Desembocadura de una corriente de agua en un espejo de agua, mar, estuario, que frena su velocidad, perdiendo poder de carga y haciendo que deposite sus sedimentos. Tiene forma de delta griega.
+TA1 	5	Estuario	Desembocadura ancha de una corriente de agua, donde accionan las mareas y se mezclan las aguas en marea alta.
+TA1 	6	Ría	Valle de origen fluvial inundado por el mar. Ejemplo: Ría del Río Deseado.
+TA1 	7	Golfo	Accidente marítimo de extensión variable y mayor rango dimensional que una bahía. Es una parte del mar que se interna en el continente, entre dos prominencias costeras.
+TA1 	8	Bahía	Penetración profunda del mar en la costa, de entrada ancha y donde accionan las mareas.
+TA1 	9	Península	Superficie de tierra que en su mayor parte se encuentra rodeada de agua, y que se une a una extensión de tierra mayor a través de un istmo. Se forma por erosión. Ejemplo: Península de Valdés (Provincia del Chubut), Península de San Pedro, Lago Nahuel Huapi (Provincia de Río Negro).
+TA1 	10	Istmo	Estrecha lengua de tierra que une dos continentes o una península con un continente.
+TA1 	11	Punta	Superficie de tierra de baja altura que penetra en el mar, corriente de agua o espejo de agua. Ejemplo: Punta Dungeness, Provincia de Santa Cruz.
+TA1 	12	Cabo 	Superficie de tierra de relieve accidentado que sobresale de la línea de costa y penetra en el mar.
+TA1 	13	Estrecho	Porción de mar relativamente larga y estrecha que conecta dos cuerpos de agua (mares, océanos o lagos), y por tanto, se encuentra entre dos masas de tierra. Ejemplo: Estrecho de Magallanes. 
+TA1 	14	Puerto natural	 Zona de la costa que ofrece resguardo natural a las embarcaciones. Ejemplo: Puerto Moreno.
+TAP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TAP 	1	Parque	 Área representativa de una región biogeográfica, de gran atractivo por su belleza o interés científico, mantenida sin otras alteraciones que las necesarias para asegurar su control, la atención al visitante y la defensa nacional.
+TAP 	2	Reserva	Área de interés para la conservación de los sistemas ecológicos, la protección de un Parque contiguo o de zonas de conservación independientes, cuando la situación existente no requiera o admita el régimen de un Parque. Se permiten asentamientos humanos en la medida que no amenacen la conservación. 
+TAP 	3	Monumento natural	Área, cosa, especie viva de animal o planta, que tiene un interés estético, histórico o científico. Se lo protege de manera absoluta, es inviolable, y la única actividad permitida son las inspecciones oficiales, las investigaciones y las medidas necesarias para su cuidado y atención de los visitantes. 
+TAS 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TAS 	1	Villa	Asentamiento humano pequeño destinado al alojamiento temporal para actividades recreativas o para brindar alojamiento al personal destinado a la construcción y / u operación de grandes infraestructuras.
+TAS 	2	Pueblo	Asentamiento humano de menos de 10000 habitantes de límites definidos, que presenta características urbanas tales como amanzanamiento, calles trazadas y uno o varios sectores de referencia con equipamiento comunitario.
+TAS 	3	Paraje	Lugar geográfico de población muy dispersa situado en el ámbito rural, cuyo nombre es conocido.
+TAS 	4	Colonia	Sector del ámbito rural, de gran extensión y nombre conocido, donde generalmente se desarrollan actividades agrícolas. No se identifica claramente un sitio de referencia y sus límites suelen ser indefinidos.
+TAS 	5	Ciudad	Asentamiento humano de más de 10000 habitantes.
+TAS 	6	Caserío	Grupo aislado de viviendas y otras edificaciones distantes entre sí a no más de 200 metros que generalmente presenta un sector de referencia con equipamiento comunitario. Incluye a aquellos ubicados a lo largo de caminos. 
+TAS 	7	Barrio cerrado	Urbanización de acceso restringido que puede formar parte de la planta urbana de una ciudad o pueblo, o bien presentarse de manera aislada.
+TC1 	1	Oficina postal	Local habilitado para el despacho de correspondencia local. Incluye estafeta.
+TC1 	2	Oficina radiotelefónica	Local con instalaciones para la recepción y transmisión radiotelefónica.
+TC1 	3	Oficina telefónica	Local habilitado para servicio telefónico.
+TC1 	4	Oficina radiopostal	Local habilitado para el despacho radiopostal de correspondencia.
+TCC 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TCC 	1	Afloramiento rocoso	Manifestación en superficie de alguna litología de cualquier tipo y composición. Incluye macizo rocoso.
+TCC 	2	Cumbre rocosa	Corresponde a una cima coronada por un afloramiento rocoso, de cualquier naturaleza, generalmente escarpada, lo cual no permite su representación altimétrica por curvas de nivel.
+TCC 	3	Bloque errático	Roca de volumen mayor al bloque, de paredes más o menos lisas, que se encuentra aislado en un terreno llano, en el cual se destaca, no siendo un "afloramiento rocoso" sino una evidencia de la actividad glaciar.
+TCP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TCP 	1	Círculo Polar Ártico	Paralelo situado a 66º 33' 45" Norte.
+TCP 	2	Círculo Polar Antártico	Paralelo situado a 66º 33' 45" Sur.
+TDA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TDA 	1	Radiotransreceptora	Instalación para fines de transmisión o recepción de ondas de televisión, microondas y/o radio.
+TDA 	2	Radiotelefónica	Instalación dedicada a la recepción y transmisión telefónica.
+TDH 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TDH 	1	En límite	El hito está ubicado sobre la traza de un límite internacional.
+TDH 	2	Testigo	El hito está ubicado en la inmediación a la traza del límite internacional, sobre territorio de alguno de los países involucrados.
+TDU 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TUP 	1	Vial	Puente destinado a soportar una red vial o calle.
+TDU 	2	Oleoducto	Ducto destinado al transporte de líquidos provenientes de la explotación petrolera.
+TDU 	3	Gasoducto	Ducto destinado al transporte de gas natural a presión.
+TDU 	4	Poliducto	Ducto destinado al transporte de sustancias varias.
+TDU 	5	Naftoducto	Ducto destinado al transporte exclusivo de naftas.
+TEF 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TEF 	1	Apeadero	Lugar de la línea férrea en donde los trenes paran para admitir únicamente pasajeros, pudiendo o no contar con andenes y obras secundarias. Incluye parada y embarcadero.
+TEF 	2	Desvío	Vía paralela a la troncal que permite el cruce de trenes.
+TEF 	3	Estación	Lugar de una o más vías férreas con edificio y demás dependencias donde regularmente se detienen los trenes y admiten pasajeros y / mercancías.
+TEN 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TEN 	2	Baja tensión	Líneas para distribución de energía eléctrica, cuya tensión nominal es hasta 1 KV.
+TEN 	3	Media tensión	Líneas para transporte o distribución de energía eléctrica, cuya tensión nominal es superior a 1 KV e inferior o igual a 66KV.
+TEN 	6	Alta tensión	Líneas para transporte o distribución de energía eléctrica, cuya tensión nominal es superior 66KV y menor o igual a 220 KV.
+TEN 	9	Extra alta tensión	Líneas para transporte de energía eléctrica, cuya tensión nominal es superior a 200KV e inferior o igual a 800 KV.
+TEN 	17	Ultra alta tensión	Líneas para transporte de energía eléctrica, cuya tensión nominal es superior a 800KV.
+TES 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TES 	1	Gendarmería Nacional	Asiento de la autoridad a cargo de la seguridad exterior y la defensa nacional, especialmente en la zona de frontera.
+TES 	2	Prefectura Naval	Asiento de la autoridad a cargo de la seguridad portuaria y vigilancia de las aguas jurisdiccionales.
+TES 	3	Jefatura de Policía	Asiento de la autoridad de la Policía Federal o Provincial.
+TES 	4	Destacamento Policial	Dependencia de menor rango, que es sede de descentralización de la policía local. Incluye brigada de toxicología, brigada de investigaciones, entre otros. 
+TES 	5	Comisaría	Asiento de la autoridad de la policía local. Incluye subcomisaría.
+TES 	6	Guardaparque	Asiento de la autoridad a cargo de la seguridad y preservación de los bienes naturales y culturales.
+TGG 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TGG 	1	Nieve o hielo permanente	Nieve o hielo, de espesor variable, que dura todo el año, por arriba de la línea de las "nieves eternas" dependiendo de la latitud y altura orográfica. El límite climático del sistema orográfico de nieve y el espesor del recubrimiento, dependen de la posición geográfica y de los factores que inciden en los fenómenos locales.
+TGG 	2	Permafrost	Regolito y sustrato rocoso permanentemente congelados, existiendo algunos casos en los que se descongelan en verano.
+TGO 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TGO 	1	Medido	Valor gravimétrico determinado a partir de un nuevo cálculo.
+TGO 	2	Convertido	Valor gravimétrico determinado a partir de la aplicación de un parámetro de conversión a un viejo valor de gravedad.
+TGO 	3	Interpolado	Valor gravimétrico determinado a partir de la interpolación de valores próximos al punto.
+THH 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+THH 	1	Bañado	Terreno bajo y de pobre escurrimiento superficial que hace que esté anegado durante todo el año a causa generalmente de las lluvias, y de los desbordes de aguas superficiales o afloramiento de la capa freática. Posee poca profundidad y piso fangoso e inestable, con cobertura vegetal hidrófila, con algo de leñosa y pajonales.
+TSN 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TSN 	1	Arenal	Suelo constituido por sedimento suelto, tamaño arena, sin tener la forma de médano y acumulado por el viento. Incluye el arenal con ripio.
+THH 	2	Estero 	Área de gran superficie, topográficamente deprimida y anegada permanentemente, manteniendo los suelos en hidromorfismo permanente. Esto permite el afianzamiento constante de vegetación hidrófila bentónica y flotante, con mayor producción y acumulación de materia orgánica y alimentando lagunas abiertas y permanentes que determinan un paisaje de dinámica distinta al bañado. La diferencia con éste es ecológica y energética, por la cantidad de materia orgánica producida y consumida.
+THH 	3	Cañada	Bañado formado en la planicie de inundación a lo largo de la corriente de agua, que al tener poca diferencia topográfica, es baja y está casi permanentemente inundada. Puede o no estar bien definida.
+THH 	4	Cangrejal	Terreno bajo, saturado de agua, en donde suelen criarse cangrejos. Generalmente es una zona lindera a una corriente de agua o al litoral sometido a la invasión y retroceso casi regular de la marea.
+THH 	5	Mallín, vega, menuco	Valle o zona baja y húmeda, en una geografía montañosa, que da un suelo fértil originado por una corriente de agua o vertiente, con vegetación herbácea o hidrófila natural. 
+TI1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TI1 	1	Permanente	Base antártica donde se realizan actividades durante todo el año.
+TI1 	2	Temporaria	Base antártica donde se realizan actividades sólo durante el verano antártico.
+TIN 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TIN 	1	Polígono de tiro	Lugar con instalaciones propias para la práctica de tiro.
+TIN 	2	Camping	Lugar al aire libre acondicionado para que acampar en él. Generalmente dispone de instalaciones.
+TIN 	3	Club	Lugar para realizar actividades sociales, deportivas y de esparcimiento.
+TIN 	4	Circuito	Recorrido o camino que comienza y finaliza en el mismo lugar.
+TIN 	5	Balneario	Lugar ubicado en la playa con el objetivo de brindar servicios a los turistas.
+TLG 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TLG 	1	Alto	Punto o zona elevada respecto a su entorno.
+TLG 	2	Bajo	Depresión u hondonada del terreno, que puede o no tener agua.
+TLG 	3	Llano	Planicie enmarcada por cordones o sierras, de extensión variable, suelos áridos y vegetación xerófila.
+TLG 	4	Llanura	Región extensa de escaso relieve, donde las pendientes son muy bajas (%°) y el relieve plano-cóncavo-convexo es evidenciado por el diseño meándrico de las corrientes de agua que drenan la región con una velocidad de escurrimiento lenta.
+TLG 	5	Pampa	Nombre quechua que significa planicie sin árboles, para referirse a las extensas llanuras que componen gran parte de Argentina. Altiplanicie que constituye la parte superior de una meseta.
+TLG 	6	Planicie	Superficie con una cobertura sedimentaria y notoria planitud en su configuración.
+TLG 	7	Altiplano	Extensión con escaso relieve y elevada altitud, que se encuentra generalmente localizada entre dos o más cadenas montañosas, pero cuyo levantamiento no ocurrió al mismo tiempo. También suele denominarse altiplanicie.
+TLG 	8	Puna	Voz quechua que significa "tierras altas de la Cordillera". Altiplanicie ubicada entre los 3.000 a 4.000 msnm, rodeada de montañas.
+TLQ 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TLQ 	1	Dura	También llamada hard breakline. Es aquella que representa una discontinuidad abrupta  (ejemplo: corriente de agua) en la pendiente de la superficie.
+TLQ 	2	Blanda	También llamada soft breakline. Es aquella que permite añadir mayor definición al modelo en zonas donde, aunque no cambia de forma abrupta la orientación de la pendiente, se recoge la forma de algún elemento determinado.
+TMA 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TMA 	1	Manzana trazada y baldía	Sector de un asentamiento humano, delimitado por vía pública u otros rasgos, sin edificaciones.
+TMA 	2	Manzana con edificación total	Sector de un asentamiento humano, delimitado por vía pública u otros rasgos, con más de la mitad de su superficie edificada.
+TMA 	3	Manzana con edificación parcial	Sector de un asentamiento humano, delimitado por vía pública u otros rasgos, con edificaciones que ocupan menos de la mitad de su superficie.
+TP1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TP1 	1	Polo Norte geográfico	Extremo Norte del eje de rotación terrestre, donde convergen los meridianos, coincidiendo con las máximas latitudes.
+TP1 	2	Polo Norte magnético	Punto ubicado en el hemisferio Norte donde convergen las líneas de fuerza del campo magnético terrestre.
+TP1 	3	Polo Sur geográfico	Extremo Sur del eje de rotación terrestre, donde convergen los meridianos, coincidiendo con las máximas latitudes.
+TP1 	4	Polo Sur magnético	Punto ubicado en el hemisferio Sur donde convergen las líneas de fuerza del campo magnético terrestre.
+TPL 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TPL 	1	Pileta de tratamiento de efluentes cloacales	Depósito de líquidos de origen cloacal y domiciliario contenidos para su tratamiento.
+TPL 	2	Pileta de tratamiento de efluentes industriales	Depósito de líquidos de origen industrial para su tratamiento.
+TPL 	3	Pileta potabilizadora de agua	Depósito de agua para eliminar, por decantación, residuos finos en suspensión.
+TPL 	4	Pileta de lixiviación	Depósito de líquidos lixiviados de depósitos de residuos.
+TRO 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TRO 	1	Malecón	Muro o pared normalmente construido en paralelo a la línea de costa para constituir una dársena. 
+TRO 	2	Espigón 	Muro o pared normalmente construido en forma perpendicular a la línea de costa y con un extremo libre. Puede o no llevar escollera. 
+TRO 	3	Escollera	Construcción de roca acumulada sobre el lecho de una corriente de agua o mar hasta emerger, para proteger del oleaje y corrientes litorales a costas y lugares para fondeadero de embarcaciones u operaciones de carga y descarga. 
+TSN 	2	Barrial, barrizal, guadal	El barrial o barreal es un terreno bajo y sin desagüe que se inunda periódicamente formando un lodo gredoso y sin vegetación que cuando se seca por evaporación se transforma en un polvillo fino esparcido por el viento. El barrizal es un sitio lleno de barro permanente o durante o durante la mayor parte del año. El guadal es un pantano arenoso, de nula capacidad portante y poca vegetación.
+TSN 	3	Escorial, colada lávica	Terreno cubierto de antigua lava volcánica formada por bloques irregulares en cuanto a tamaño, y que presentan superficies y aristas ásperas.
+TSN 	4	Pedregal 	Terreno cubierto de rocas sueltas, de tamaño mayor a la grava, generalmente angulosas y heterogéneas en cuanto a composición y tamaño.
+TSN 	5	Salina, salar, salitral, boratera	Zona baja arreica donde se produce acumulación de sales por evaporación (cloruros y sulfatos principalmente), constituyendo un depósito natural de sales, cuya denominación varía según el tipo de sal. Salina o salar se refiere a la acumulación de sales en solución acuosa. Salitral es el depósito natural de salitre. Boratera es una salina donde la sal predominante es borato.
+TSN 	6	Sedimento fluvial	Grava y bloques redondeados, arena y otros sedimentos finos transportados por la acción fluvial y que son depositados en las planicies aluviales actuales o antiguas (albardones y terrazas).
+TSN 	7	Tacuruzal	Terreno cubierto por montículos de tierra, compacta y resistente debido al accionar de hormigas para construir hormigueros. 
+TSN 	8	Turbal	Suelo con alto contenido de restos de vegetación en proceso de humidificación que cuando el proceso se completa toma color negro, de textura esponjosa y blanda con gran capacidad de absorber agua. Puede estar mezclada con limo o arcilla que favorece la unión. Su capacidad portante es casi nula. 
+TSN 	9	Suelo Franco	Suelo donde las cantidades de sus componentes se encuentran en proporciones óptimas o muy próximas a ella. Posee elevada productividad agrícola, debido a su textura relativamente suelta, heredada de la arena, a su fertilidad procedente de los limos incluidos y al mismo tiempo con adecuada retención de humedad por la arcilla presente.
+TTR 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TTR 	1	Trópico de Cáncer	Círculo imaginario de la esfera celeste paralelo al Ecuador, ubicado aproximadamente a la latitud geocéntrica 23º 26' 17'',43 Norte.
+TTR 	2	Trópico de Capricornio	Círculo imaginario de la esfera celeste paralelo al Ecuador, ubicado aproximadamente a la latitud geocéntrica 23º 26' 17'',43 Sur.
+TUP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TUP 	2	Ferrocarril	Puente destinado a permitir el paso de locomotoras y vagones.
+TUP 	3	Mixto	Puente destinado a soportar y permitir el paso de locomotoras, vagones, red vial o calle.
+TYP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TYP 	41	Autopista 	Vía multicarril sin cruces a nivel con otra calle o ferrocarril, con puentes, con calzadas separadas físicamente y con limitación de ingreso directo desde los predios frentistas lindantes.
+TYP 	47	Autovía	Vía con calzadas separadas y restricciones de uso para determinadas categorías de tráfico. Puede contar con semáforos y cruces peatonales.
+TYP 	51	Camino de un carril	Vía de una sola calzada por donde se puede circular en un sólo sentido a la vez.
+TYP 	52	Vía de autopista	Cada una de las calzadas independientes que componen una autopista.
+TYP 	53	Vía de autovía	Cada una de las calzadas independientes que componen una autovía.
+TYP 	54	Camino de dos carriles	Vía de una sola calzada por donde se puede circular en ambos sentidos de manera independiente.
+TZ1 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TZ1 	1	Provincias de Entre Ríos, Corrientes y Misiones	Río Paraná Guazú (límite entre las provincias de Buenos Aires y Entre Ríos) desde su desembocadura hasta la Ruta Nacional Nº 12 y por la misma hasta su encuentro con la Ruta Nacional Nº 14. Por esta última hasta el cruce con el río Gualeguaychú y por este río hasta la intersección con el camino que une Santa Rosa con La Clarita. Por este camino hasta La Clarita y por vías del Ferrocarril General Urquiza (Km 322,5) hacia Arroyo Barú hasta San Salvador. Desde esta localidad por línea recta hasta el punto de reunión de los límites interdepartamentales de Colón, Concordia y Villaguay. Desde este punto por el Límite Concordia-Villaguay, luego Concordia-Federal, Federación-Federal y hasta intersección con Ruta Nacional Nº 127 y por ésta hacia el Norte hasta su intersección con la Ruta Nacional Nº 14. Desde este cruce (Cuatro Bocas) por la Ruta Nacional Nº 119 hasta Mercedes y desde allí por Ruta Provincial Nº 40 hasta Colonia Carlos Pellegrini. Desde este punto, por Ruta Provincial Nº 41 hasta la intersección con Ruta Provincial Nº 37 y desde allí por líneas rectas a las localidades de Loreto y Nuestra Señora del Rosario de Caa Catí para continuar por la Ruta Provincial Nº 5 hasta San Luis del Palmar y desde allí, por Ruta s/n a Paso de la Patria. La zona así delimitada incluye la totalidad del territorio de la Provincia de Misiones exceptuándose el ejido municipal de la Ciudad de Posadas.
+TZ1 	2	Provincias de Chaco, Formosa, Salta y Jujuy	Desde el río Paraná, siguiendo por los límites interdepartamentales Bermejo —1º de Mayo y Bermejo— Libertador General San Martín hasta el río de Oro. Desde este punto línea recta hasta el cruce del río Bermejo con el límite interdepartamental Laishi-Pirané. Siguiendo por este límite y luego por su similar Formosa-Pirané hasta las vías del Ferrocarril General Belgrano y por éstas hasta Salta (se exceptúa el ejido municipal de la Ciudad de Formosa). En esta provincia continúa por las vías mencionadas hasta Pichanal y desvío hacia Yuchán hasta el río San Francisco. Por éste hasta el límite interprovincial con Jujuy y por dicho límite hasta su intersección con la Ruta Provincial Nº 13. Por esta ruta hasta Hipólito Yrigoyen (estación Iturbe) y desde allí por las vías del Ferrocarril General Belgrano, hasta Abra Pampa y Ruta Provincial Nº 71 hasta el límite interdepartamental Cochinoca-Rinconada, luego Cochinoca-Susques y siguiendo por el límite interprovincial Jujuy-Salta (Sierra del Cobre) hasta la Ruta Provincial Nº 38 y por ésta hasta su intersección con la Ruta Nacional Nº 40 continuando por esta última hacia San Antonio de los Cobres. Luego por la Ruta Provincial Nº 51 y Ruta Provincial Nº 129 hacia Salar de Pocitos hasta la Ruta Provincial Nº 17 y por esta última hacia el límite con la Provincia de Catamarca.
+TZZ 	1	Zona de Frontera para el Desarrollo y Zona de Seguridad de Fronteras	Zona de seguridad destinada a complementar las previsiones territoriales de la defensa nacional. Comprende una faja a lo largo de la frontera terrestre y marítima a partir del límite internacional.
+TZ1 	3	Provincias de Catamarca, San Juan y Mendoza	Desde el límite con Salta, Ruta Provincial Nº 43 hacia el sur hasta la intersección con la Ruta Nacional Nº 40 y por la misma, hasta el límite interprovincial con la provincia de La Rioja. En esta provincia, se continúa por la Ruta Nacional Nº 40 hasta su intersección con la Ruta Provincial Nº 18, y por esta última hasta Pagancillo, y desde esta localidad por Ruta Provincial Nº 26 hasta su intersección nuevamente con la Ruta Nacional Nº 40. Por ésta hasta el límite interprovincial con la provincia de San Juan. En esta provincia sigue por Ruta Nacional Nº 40 hacia el Sur, continuando por su superposición con la Ruta Nacional Nº 150 hasta Cruz de Piedra. Desde este punto por Ruta Provincial Nº 150 hasta Las Flores, continuándose por la Ruta Provincial Nº 436 hasta Iglesias y luego por la Ruta Provincial Nº 412 hasta el límite interprovincial, que se continúa en Mendoza como Ruta Provincial Nº 39. Por esta ruta hasta Uspallata y por Ruta Nacional Nº 7 hasta Potrerillos. Desde allí por la ruta que hacia el Sur llega a San José y por Ruta Provincial Nº 86 hasta su intersección con la Ruta Nacional Nº 40 y por la misma hasta la provincia del Neuquén.
+TZ1 	4	Provincias del Neuquén, Río Negro, Chubut Y Santa Cruz	Por la Ruta Nacional Nº 40 hasta la Ruta Provincial Nº 9 y por ésta hasta su nueva intersección con la Ruta Nacional Nº 40. Por la misma hasta su encuentro con la Ruta Nacional Nº 237. Por ella hasta el río Alicurá y de allí por camino secundario a Paso Flores. Continúa por la Ruta Nacional Nº 40 y prosigue, ya en la provincia de Chubut, hasta el cruce con la Ruta Provincial Nº 20 a 30 km al Sur de Gobernador Costa. Por dicha ruta hasta el cruce con la Ruta Provincial Nº 22 y por esta última hacia río Mayo continuando por la Ruta Nacional Nº 40 hacia el Sur hasta Santa Cruz. En esta provincia continúa hasta Cerrito y por Ruta Provincial Nº 5 hasta su intersección con la Ruta Nacional Nº 3. Desde este punto línea recta a intersección con arroyo sin nombre sobre Ruta Provincial Nº 1 a la altura sección Frailes del Cóndor y por el arroyo mencionado hasta su desembocadura en el Océano Atlántico.
+TZ1 	5	Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur	Comprende la totalidad de la Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur.
+TZ1 	6	Área de Frontera Ibicuy	Comprende la parte del Departamento Islas del Ibicuy incluida en la Zona de Frontera.
+TZ1 	7	Área de Frontera Federación	Comprende el Departamento Federación.
+TZ1 	8	Área de Frontera Paso de los Libres	Comprende los departamentos Monte Caseros, Paso de los Libres, San Martín, General Alvear, Santo Tomé y parte del Departamento Ituzaingó incluida en la Zona de Frontera.
+TZ1 	9	Área de Frontera Bernardo de Irigoyen	Comprende los departamentos 25 de Mayo, Guaraní, San Pedro, General Manuel Belgrano e Iguazú.
+TZ1 	10	Área de Frontera Bermejo	Comprende el Departamento Bermejo.
+TZ1 	11	Área de Frontera Clorinda	Comprende los departamentos Pilcomayo, Pilagas, completos, y, la parte del Departamento Patiño determinada por su límite interdepartamental con Pilagas y con Pirané hasta la intersección con la Ruta Provincial Nº 20; por esta ruta hasta Colonia Unión Escuelas, siguiendo por río Porteño hacia San Martín 1 y Pozo Hondo hasta la Ruta Provincial Nº 28 y por esta última hasta el límite internacional.
+TZ1 	12	Área de Frontera Ingeniero Juárez	Comprende el Departamento Ramón Lista y la parte del Departamento Matacos incluida la Zona de Frontera.
+TZ1 	13	Área de Frontera La Puna	Comprende los departamentos Yavi, Santa Catalina, Rinconada y Susques y la parte de los departamentos Humahuaca y Cochinoca incluida en la Zona de Frontera.
+TZ1 	14	Área de Frontera Tartagal	Comprende los departamentos Santa Victoria e Iruya y la parte de los departamentos Orán, San Martín y Rivadavia incluida en la Zona de Frontera.
+TZ1 	15	Área de Frontera Los Andes	Comprende la parte de los departamentos Los Andes y La Poma incluida en la Zona de Frontera.
+TZ1 	16	Área de Frontera San Francisco	Comprende la parte de los departamentos Antofagasta de la Sierra, Tinogasta y Belén incluida en la Zona de Frontera.
+TZ1 	17	Área de Frontera Famatina	Comprende los departamentos General A. V. Peñaloza, General Lamadrid y la parte de Coronel Felipe Varela comprendida en la Zona de Frontera.
+TZ1 	18	Área de Frontera Jáchal	Comprende los departamentos Iglesia y Calingasta y la parte del Departamento Jáchal delimitada por la Ruta Nacional Nº 40 desde el límite interprovincial con La Rioja, siguiendo por la superposición de las Rutas Nacionales Nº 40 y Nº 150, hasta San José de Jáchal. Por la Ruta Nacional Nº 150 hasta Rodeo. Desde este punto Ruta Provincial Nº 436 hasta Iglesia. Desde este punto Ruta Provincial Nº 412 hasta límite interprovincial con la Provincia de Mendoza.
+TZ1 	19	Área de Frontera Uspallata	Comprende la parte de los departamentos Las Heras, Luján de Cuyo y Tupungato incluido en la Zona de Frontera.
+TZ1 	20	Área de Frontera Malargüe	Comprende la parte del Departamento Malargüe incluida en la Zona de Frontera al Sur de la línea Malargüe, camino a Mina La Valenciana, Cerro Marguira, y por el Río Grande hacia el Norte hasta Portezuelo del Planchón.
+TZ1 	21	Área de Frontera Chos Malal	Comprende desde el paso Pino Hachado sobre el límite internacional por Ruta Nacional Nº 22 hasta Las Lajas, Ruta Provincial Nº 10 hasta Bajada del Agrio, Ruta Nacional Nº 40, Ruta Provincial Nº 9, nuevamente Ruta Nacional Nº 40 hasta el límite interprovincial con Mendoza y por este último hasta el límite internacional.
+TZ1 	22	Área de Frontera El Bolsón	Comprende desde el paso Cochamo sobre el límite internacional por camino hacia la localidad de Río Villegas, línea recta a Las Bayas, Ruta Nacional Nº 40 hasta el límite interprovincial con Chubut y por este último hasta el límite internacional.
+TZ1 	23	Área de Frontera Epuyén	Comprende la parte del Departamento Cushamen incluida en la Zona de Frontera.
+TZ1 	24	Área de Frontera Senguer	Comprende la parte del Departamento Río Senguer incluida en la Zona de Frontera.
+TZ1 	25	Área de Frontera Perito Moreno	Comprende desde el paso Pueyrredón sobre el límite internacional por Ruta Provincial Nº 39 hasta la Ruta Nacional Nº 40, por esta última hasta el límite interprovincial con Chubut y por este último hasta el límite internacional.
+TZ1 	26	Área de Frontera Lago Argentino	Comprende desde paso El Zurdo sobre el límite internacional por línea recta hasta Esperanza. Luego por Ruta Provincial Nº 5 y Ruta Nacional Nº 40 hasta el límite interdepartamental Lago Argentino - Río Chico y por este último hasta el límite internacional.
+TZ1 	27	Área de Frontera Tierra del Fuego	Comprende el territorio de la parte argentina de la Isla Grande y la Isla de los Estados.
+TZZ 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+TZZ 	2	Zona de Seguridad de Fronteras	Zona que se encuentra en las provincias de Santa Cruz, Chubut y Río Negro. Se extiende desde Cabo Vírgenes, Ruta Provincial Nº 1 hasta Río Gallegos, desde esta ciudad por Ruta Nacional Nº 3 hacia el Norte hasta El Salado. Desde este punto por Rutas Provinciales Nº 47 y Nº 66 hasta Antonio de Biedma, desde allí por vías del Ferrocarril hasta Las Heras. Desde este punto por Ruta Provincial Nº 16 hasta Holdich y vías del Ferrocarril General Roca hasta Pampa del Castillo en la provincia de Chubut. Desde esta localidad por Ruta Provincial Nº 37 hasta su intersección con la Ruta Nacional Nº 3 y, por esta última hasta San Antonio Oeste en la Provincia de Río Negro, en cuyo puerto finaliza esta delimitación.
+TZZ 	3	Área de Frontera	Área que, por su situación y características especiales, requiere la promoción prioritaria de su desarrollo.
+VLJ 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+VLJ 	1	Validado con marco legal	Límite interprovincial que tiene respaldo legal y pudo ser representado geográficamente de manera unívoca y precisa.
+VLJ 	2	No validado con marco legal	Límite interprovincial que tiene respaldo legal pero existen dificultades para su correcta representación geográfica.
+VLJ 	3	Sin marco legal	Límite interprovincial que no tiene un marco legal que respalde su ubicación geográfica.
+VLP 	-1	Información no disponible	Cuando no se dispone o no se tiene certeza de los datos.
+VLP 	1	Validado 	Límite validado por una autoridad competente.
+VLP 	2	No validado	Límite no validado por una autoridad competente.
+\.
+
+
+--
+-- TOC entry 4490 (class 2606 OID 2380844)
+-- Name: atributo_leyenda_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY atributo_leyenda
+    ADD CONSTRAINT atributo_leyenda_pkey PRIMARY KEY (codigo, tabla);
+
+
+--
+-- TOC entry 4488 (class 2606 OID 2380846)
+-- Name: atributo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY atributo
+    ADD CONSTRAINT atributo_pkey PRIMARY KEY (codigo);
+
+
+--
+-- TOC entry 4494 (class 2606 OID 2380848)
+-- Name: atributo_sld_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY atributo_sld
+    ADD CONSTRAINT atributo_sld_pkey PRIMARY KEY (codigo, tabla);
+
+
+--
+-- TOC entry 4496 (class 2606 OID 2380864)
+-- Name: clase_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY clase
+    ADD CONSTRAINT clase_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4492 (class 2606 OID 2381057)
+-- Name: pk_atributo_quitar; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY atributo_quitar
+    ADD CONSTRAINT pk_atributo_quitar PRIMARY KEY (codigo);
+
+
+--
+-- TOC entry 4498 (class 2606 OID 2381059)
+-- Name: pk_dominio; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dominio
+    ADD CONSTRAINT pk_dominio PRIMARY KEY (codigo);
+
+
+--
+-- TOC entry 4500 (class 2606 OID 2381061)
+-- Name: pk_dominio_valor; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dominio_valor
+    ADD CONSTRAINT pk_dominio_valor PRIMARY KEY (codigo, clave);
+
+
+--
+-- TOC entry 4639 (class 0 OID 0)
+-- Dependencies: 256
+-- Name: atributo; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE atributo FROM PUBLIC;
+REVOKE ALL ON TABLE atributo FROM postgres;
+GRANT ALL ON TABLE atributo TO postgres;
+GRANT ALL ON TABLE atributo TO sig_readonly;
+GRANT ALL ON TABLE atributo TO sig_operator;
+GRANT ALL ON TABLE atributo TO sig_operator_lab;
+
+
+--
+-- TOC entry 4640 (class 0 OID 0)
+-- Dependencies: 257
+-- Name: atributo_leyenda; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE atributo_leyenda FROM PUBLIC;
+REVOKE ALL ON TABLE atributo_leyenda FROM postgres;
+GRANT ALL ON TABLE atributo_leyenda TO postgres;
+GRANT ALL ON TABLE atributo_leyenda TO sig_readonly;
+GRANT ALL ON TABLE atributo_leyenda TO sig_operator;
+GRANT ALL ON TABLE atributo_leyenda TO sig_operator_lab;
+
+
+--
+-- TOC entry 4641 (class 0 OID 0)
+-- Dependencies: 258
+-- Name: atributo_quitar; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE atributo_quitar FROM PUBLIC;
+REVOKE ALL ON TABLE atributo_quitar FROM postgres;
+GRANT ALL ON TABLE atributo_quitar TO postgres;
+GRANT ALL ON TABLE atributo_quitar TO sig_readonly;
+GRANT ALL ON TABLE atributo_quitar TO sig_operator;
+GRANT ALL ON TABLE atributo_quitar TO sig_operator_lab;
+
+
+--
+-- TOC entry 4642 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: atributo_sld; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE atributo_sld FROM PUBLIC;
+REVOKE ALL ON TABLE atributo_sld FROM postgres;
+GRANT ALL ON TABLE atributo_sld TO postgres;
+GRANT ALL ON TABLE atributo_sld TO sig_readonly;
+GRANT ALL ON TABLE atributo_sld TO sig_operator;
+GRANT ALL ON TABLE atributo_sld TO sig_operator_lab;
+
+
+--
+-- TOC entry 4643 (class 0 OID 0)
+-- Dependencies: 274
+-- Name: clase; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE clase FROM PUBLIC;
+REVOKE ALL ON TABLE clase FROM postgres;
+GRANT ALL ON TABLE clase TO postgres;
+GRANT ALL ON TABLE clase TO sig_readonly;
+GRANT ALL ON TABLE clase TO sig_operator;
+GRANT ALL ON TABLE clase TO sig_operator_lab;
+
+
+--
+-- TOC entry 4644 (class 0 OID 0)
+-- Dependencies: 279
+-- Name: dominio; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE dominio FROM PUBLIC;
+REVOKE ALL ON TABLE dominio FROM postgres;
+GRANT ALL ON TABLE dominio TO postgres;
+GRANT ALL ON TABLE dominio TO sig_readonly;
+GRANT ALL ON TABLE dominio TO sig_operator;
+GRANT ALL ON TABLE dominio TO sig_operator_lab;
+
+
+--
+-- TOC entry 4645 (class 0 OID 0)
+-- Dependencies: 280
+-- Name: dominio_valor; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE dominio_valor FROM PUBLIC;
+REVOKE ALL ON TABLE dominio_valor FROM postgres;
+GRANT ALL ON TABLE dominio_valor TO postgres;
+GRANT ALL ON TABLE dominio_valor TO sig_readonly;
+GRANT ALL ON TABLE dominio_valor TO sig_operator;
+GRANT ALL ON TABLE dominio_valor TO sig_operator_lab;
+
+
+-- Completed on 2019-02-20 09:46:48
+
+--
+-- PostgreSQL database dump complete
+--
+
