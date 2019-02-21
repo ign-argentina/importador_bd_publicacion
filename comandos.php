@@ -63,6 +63,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT 
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"fuzzystrmatch\\""
 ';
 
+/*
 foreach ($aClases as $sVista) {
 
 	echo '
@@ -71,6 +72,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP VIEW public.'.$sVis
 ';
 
 }
+*/
 
 if ($gestor = opendir('SHPs')) {
 	
@@ -168,6 +170,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "VACUUM ANALYZE '.$sTabla
 	closedir($gestor);
 }
 
+/*
 foreach ($aClases as $sVista) { //Crea las vistas para el nomenclador
 
 	echo '
@@ -176,6 +179,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f views\\'.$sVista.'.sql
 ';
 
 }
+*/
 
 echo '
 '.$sBashComentario.' Eliminar variable entorno password
