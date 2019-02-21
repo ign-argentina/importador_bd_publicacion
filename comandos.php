@@ -56,6 +56,9 @@ echo '
 '.$sBashComentario.' Extension para UUID
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"uuid-ossp\\""
 
+'.$sBashComentario.' Extension postgis para s$sDBName
+psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"postgis\\""
+
 '.$sBashComentario.' Extension para busquedas en texto
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"fuzzystrmatch\\""
 ';
@@ -93,6 +96,7 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'"
 '.$sBashComentario.' Crear la tabla en BD
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql
 ';
+
 
                     } else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
                         
