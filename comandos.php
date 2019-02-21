@@ -23,10 +23,16 @@ if ($sSistemaOperativo == 'windows') {
 	$sBashComentario = 'REM';
     $sComandosIniciales = 'chcp 65001';
     $sEnvVar = 'SET';
+    $sCopy = 'copy';
+    $sDirSep = "\\";
+    $sEnvQuotes = "";
 } elseif ($sSistemaOperativo == 'linux') {
 	$sBashComentario = '#';
 	$sComandosIniciales = '';
     $sEnvVar = 'export';
+    $sCopy = 'cp';
+    $sDirSep = '/';
+    $sEnvQuotes = "\"";
 } else {
 	die('Falta indicar el sistema operativo');
 }
@@ -45,7 +51,7 @@ echo '
 '.$sComandosIniciales.'
 
 '.$sBashComentario.' Crear variable entorno password
-'. $sEnvVar.' PGPASSWORD='.$sDBPsw.'
+'. $sEnvVar.' PGPASSWORD='.$sEnvQuotes.$sDBPsw.$sEnvQuotes.'
 
 '.$sBashComentario.' Extension para UUID
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"uuid-ossp\\""
@@ -67,13 +73,13 @@ if ($gestor = opendir('SHPs')) {
 	
 	while (false !== ($entrada = readdir($gestor))) { //Recorre el directorio SHPs
 		
-		if ($entrada != '.' && $entrada != '..' && is_dir('SHPs/'.$entrada) && ($gestor2 = opendir('SHPs/'.$entrada))) {
+		if ($entrada != '.' && $entrada != '..' && is_dir('SHPs'.$sDirSep.$entrada) && ($gestor2 = opendir('SHPs'.$sDirSep.$entrada))) {
 			
 			while (false !== ($entrada2 = readdir($gestor2))) { //Recorre los subdirectorios del directorio SHPs
 				
-				if (!is_dir('SHPs/'.$entrada.'/'.$entrada2) && preg_match('/.shp$/i', $entrada2)) { //Si encontro archivos SHP
+				if (!is_dir('SHPs'.$sDirSep.$entrada.'/'.$entrada2) && preg_match('/.shp$/i', $entrada2)) { //Si encontro archivos SHP
 					
-					$sShp = $entrada.'\\'.$entrada2;
+					$sShp = $entrada.$sDirSep.$entrada2;
 					$sTabla = nombreSHP2NombreTabla($entrada2); //Genera el nombre de la tabla a partir del nombre del SHP
 					
 					echo '
@@ -85,19 +91,19 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'"
 	
 						echo '	
 '.$sBashComentario.' Crear la tabla en BD
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables\\create_'.$sTabla.'.sql
+psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql
 ';
 
                     } else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
                         
                         echo '	
 '.$sBashComentario.' Generar solo CREATE TABLE
-'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs\\'.$sShp.'" '.$sTabla.' > tmp\\create_'.$sTabla.'.sql
-shp2pgsql -t 3DZ -p "SHPs\\'.$sShp.'" '.$sTabla.' > tmp\\create_'.$sTabla.'.sql
-copy tmp\\create_'.$sTabla.'.sql create_tables\\create_'.$sTabla.'.sql
+'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql
+shp2pgsql -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql
+'.$sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql
 
 '.$sBashComentario.' Crear la tabla en BD
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp\\create_'.$sTabla.'.sql
+psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql
 ';
 
                     }
@@ -117,11 +123,11 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT AddGeometryColumn
 '.$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "ALTER TABLE '.$sTabla.' ADD COLUMN globalid uuid DEFAULT uuid_generate_v4()"
 
 '.$sBashComentario.' Generar solo INSERT
-'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -a "SHPs\\'.$sShp.'" '.$sTabla.' > tmp\\insert_'.$sTabla.'.sql
-shp2pgsql -t 3DZ -a "SHPs\\'.$sShp.'" '.$sTabla.' > tmp\\insert_'.$sTabla.'.sql
+'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql
+shp2pgsql -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql
 
 '.$sBashComentario.' Ejecutar INSERT
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp\\insert_'.$sTabla.'.sql
+psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql
 
 '.$sBashComentario.' Transforma la geometria a EPSG '.$iEPSGTransformation.'
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set geom = ST_Transform(geom, '.$iEPSGTransformation.')"
