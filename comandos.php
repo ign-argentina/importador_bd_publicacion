@@ -76,23 +76,23 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP VIEW public.'.$sVis
 */
 
 if ($gestor = opendir('SHPs')) {
-	
-	while (false !== ($entrada = readdir($gestor))) { //Recorre el directorio SHPs
-		
-		if ($entrada != '.' && $entrada != '..' && is_dir('SHPs'.$sDirSep.$entrada) && ($gestor2 = opendir('SHPs'.$sDirSep.$entrada))) {
-			
-			while (false !== ($entrada2 = readdir($gestor2))) { //Recorre los subdirectorios del directorio SHPs
-				
-				if (!is_dir('SHPs'.$sDirSep.$entrada.'/'.$entrada2) && preg_match('/.shp$/i', $entrada2)) { //Si encontro archivos SHP
-					
-					$sShp = $entrada.$sDirSep.$entrada2;
-					$sTabla = nombreSHP2NombreTabla($entrada2); //Genera el nombre de la tabla a partir del nombre del SHP
-					
-					echo "\n".$sBashComentario."Eliminar tabla $sDBName\n" . 'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'" '."\n";
+    
+    while (false !== ($entrada = readdir($gestor))) { //Recorre el directorio SHPs
+        
+        if ($entrada != '.' && $entrada != '..' && is_dir('SHPs'.$sDirSep.$entrada) && ($gestor2 = opendir('SHPs'.$sDirSep.$entrada))) {
+            
+            while (false !== ($entrada2 = readdir($gestor2))) { //Recorre los subdirectorios del directorio SHPs
+                
+                if (!is_dir('SHPs'.$sDirSep.$entrada.'/'.$entrada2) && preg_match('/.shp$/i', $entrada2)) { //Si encontro archivos SHP
+                    
+                    $sShp = $entrada.$sDirSep.$entrada2;
+                    $sTabla = nombreSHP2NombreTabla($entrada2); //Genera el nombre de la tabla a partir del nombre del SHP
+                    
+                    echo "\n".$sBashComentario."Eliminar tabla $sDBName\n" . 'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'" '."\n";
 
                     if (file_exists('create_tables/create_'.$sTabla.'.sql')) { //Si ya existe el script de creación de la tabla, lo utiliza
-	
-						echo "\n".$sBashComentario.' Crear la tabla en BD' . "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
+    
+                        echo "\n".$sBashComentario.' Crear la tabla en BD' . "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
 
 
                     } else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
@@ -101,60 +101,54 @@ if ($gestor = opendir('SHPs')) {
 
                     }
 
-					echo '
-'.$sBashComentario.' Permisos sobre la tabla';
+                    echo "\n".$sBashComentario.' Permisos sobre la tabla';
                     foreach ($aDBGrantUsers as $sGrantUser) { //Recorre el vector de usuarios y le asigna permisos sobre la tabla creada
-                        echo '
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT ALL ON TABLE public.'.$sTabla.' TO '.$sGrantUser.'"';
+                        echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT ALL ON TABLE public.'.$sTabla.' TO '.$sGrantUser.'"';
                     }
 
-                    echo '
-'.$sBashComentario.' Agregar columna centroide
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT AddGeometryColumn(\'\',\''.$sTabla.'\',\'centroide\',\''.$iEPSGTransformation.'\',\'POINT\',2)"
-
-'.$sBashComentario.' Agregar columna UUID
-'.$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "ALTER TABLE '.$sTabla.' ADD COLUMN globalid uuid DEFAULT uuid_generate_v4()"
-
-'.$sBashComentario.' Generar solo INSERT
-'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql
-shp2pgsql -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql
-
-'.$sBashComentario.' Ejecutar INSERT
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql
-
-'.$sBashComentario.' Transforma la geometria a EPSG '.$iEPSGTransformation.'
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set geom = ST_Transform(geom, '.$iEPSGTransformation.')"
-
-'.$sBashComentario.' Calcular el centroide
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"
-
-'.$sBashComentario.' Calcular el centroide
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"
-
-'.$sBashComentario.' Crear un indice espacial
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE INDEX '.$sTabla.'_gix ON '.$sTabla.' USING GIST (geom)"
-
-'.$sBashComentario.' Crear trigger para calcular centroide
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON public.'.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"
-
-'.$sBashComentario.' Crear indices de búsqueda
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"
-
-'.$sBashComentario.' Ejecutar VACUUM y ANALYZE
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "VACUUM ANALYZE '.$sTabla.'"
-';
-
-				}
-				
-			}
-			
-		closedir($gestor2);
-		
-		}
-		
-	}
-	
-	closedir($gestor);
+                    echo "\n".$sBashComentario.' Agregar columna centroide'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT AddGeometryColumn(\'\',\''.$sTabla.'\',\'centroide\',\''.$iEPSGTransformation.'\',\'POINT\',2)"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Agregar columna UUID (Global ID)'
+                    ."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "ALTER TABLE '.$sTabla.' ADD COLUMN globalid uuid DEFAULT uuid_generate_v4()"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Generar solo INSERT'
+                    ."\n".$sBashComentario.' shp2pgsql -s SRS_Origen:SRS_destino -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+                    ."\n".'shp2pgsql -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+                    ."\n"
+                    ."\n".$sBashComentario.' Ejecutar INSERT'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+                    ."\n".$sBashComentario.' Transforma la geometria a EPSG '.$iEPSGTransformation." La transformación se debe hacer al momento de generar el insert"
+                    ."\n".$sBashComentario.'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set geom = ST_Transform(geom, '.$iEPSGTransformation.')"'
+                    ."\n".$sBashComentario.' Calcular el centroide'
+                    ."\n".$sBashComentario.'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Calcular el centroide'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Crear un indice espacial'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE INDEX '.$sTabla.'_gix ON '.$sTabla.' USING GIST (geom)"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Crear trigger para calcular centroide'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON public.'.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Crear indices de búsqueda'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"'
+                    ."\n"
+                    ."\n".$sBashComentario.' Ejecutar VACUUM y ANALYZE'
+                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "VACUUM ANALYZE '.$sTabla.'"'
+                    ;
+                }
+                
+            }
+            
+        closedir($gestor2);
+        
+        }
+        
+    }
+    
+    closedir($gestor);
 }
 
 /*
