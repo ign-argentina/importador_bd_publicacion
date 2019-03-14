@@ -88,30 +88,16 @@ if ($gestor = opendir('SHPs')) {
 					$sShp = $entrada.$sDirSep.$entrada2;
 					$sTabla = nombreSHP2NombreTabla($entrada2); //Genera el nombre de la tabla a partir del nombre del SHP
 					
-					echo '
-'.$sBashComentario.' Eliminar tabla
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'"
-';
+					echo "\n".$sBashComentario."Eliminar tabla $sDBName\n" . 'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'" '."\n";
 
                     if (file_exists('create_tables/create_'.$sTabla.'.sql')) { //Si ya existe el script de creación de la tabla, lo utiliza
 	
-						echo '	
-'.$sBashComentario.' Crear la tabla en BD
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql
-';
+						echo "\n".$sBashComentario.' Crear la tabla en BD' . "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
 
 
                     } else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
                         
-                        echo '	
-'.$sBashComentario.' Generar solo CREATE TABLE
-'.$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql
-shp2pgsql -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql
-'.$sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql
-
-'.$sBashComentario.' Crear la tabla en BD
-psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql
-';
+                        echo "\n".$sBashComentario.' Generar solo CREATE TABLE'."\n".$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".'shp2pgsql -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".$sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n\n".$sBashComentario.' Crear la tabla en BD'."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
 
                     }
 
