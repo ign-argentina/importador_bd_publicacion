@@ -16,6 +16,7 @@ SHPs.
         cada uno con sus respectivos archivos SHP
 ****************************************************/
 require_once 'config.php';
+require_once 'stringLib.php';
 
 $aDatos = array();
 
@@ -196,20 +197,20 @@ function nombreSHP2NombreTabla($sSHP) {
 	$string = trim($string);
  
     $string = str_replace(
-        array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
-        array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+        array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä', utf8_chr(193)),
+        array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A', 'A'),
         $string
     );
  
     $string = str_replace(
-        array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
-        array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+        array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë', utf8_chr(233)),
+        array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E', 'e'),
         $string
     );
  
     $string = str_replace(
-        array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
-        array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+        array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î', utf8_chr(237)),
+        array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I', 'i', utf8_chr(243)),
         $string
     );
  
