@@ -16,7 +16,8 @@ SHPs.
         cada uno con sus respectivos archivos SHP
 ****************************************************/
 require_once 'config.php';
-require_once 'stringLib.php';
+require_once 'LibStrings.php';
+require_once 'LibDirs.php';
 
 $aDatos = array();
 
@@ -47,6 +48,9 @@ $aClases[4] = 'v_industria_servicios';
 $aClases[5] = 'v_relieve_suelo';
 $aClases[6] = 'v_transporte';
 $aClases[7] = 'v_vegetacion';
+
+createDir('create_tables');
+createDir('tmp');
 
 echo '
 '.$sComandosIniciales.'
