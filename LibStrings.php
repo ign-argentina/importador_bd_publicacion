@@ -30,7 +30,6 @@ function utf8_chr($num) {
 function nombreSHP2NombreTabla($sSHP) {
 	
 	$string = str_replace(' ', '_', $sSHP);
-	$string = strtolower($string);
 	$string = str_replace('.shp', '', $string);
 	
 	$string = trim($string);
@@ -83,7 +82,8 @@ function nombreSHP2NombreTabla($sSHP) {
         '',
         $string
     );
-	
+#Dobniewski hoy fix 14/04	
+	$string = strtolower($string);
 	return $string;
 }
 ?>

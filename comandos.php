@@ -18,7 +18,6 @@ SHPs.
 require_once 'config.php';
 require_once 'LibStrings.php';
 require_once 'LibDirs.php';
-
 $aDatos = array();
 
 if ($sSistemaOperativo == 'windows') {
@@ -101,7 +100,12 @@ if ($gestor = opendir('SHPs')) {
 
                     } else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
                         
-                        echo "\n".$sBashComentario.' Generar solo CREATE TABLE'."\n".$sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".'shp2pgsql -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".$sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n\n".$sBashComentario.' Crear la tabla en BD'."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
+                        echo "\n".$sBashComentario.' Generar solo CREATE TABLE'."\n".
+				  $sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
+				  'shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
+				  $sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n\n".
+				  $sBashComentario.' Crear la tabla en BD'."\n".'
+				  psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
 
                     }
 
@@ -118,7 +122,7 @@ if ($gestor = opendir('SHPs')) {
                     ."\n"
                     ."\n".$sBashComentario.' Generar solo INSERT'
                     ."\n".$sBashComentario.' shp2pgsql -s SRS_Origen:SRS_destino -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
-                    ."\n".'shp2pgsql -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+                    ."\n".'shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -a "SHPs'.$sDirSep.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
                     ."\n"
                     ."\n".$sBashComentario.' Ejecutar INSERT'
                     ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
@@ -134,10 +138,10 @@ if ($gestor = opendir('SHPs')) {
                     ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE INDEX '.$sTabla.'_gix ON '.$sTabla.' USING GIST (geom)"'
                     ."\n"
                     ."\n".$sBashComentario.' Crear trigger para calcular centroide'
-                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON public.'.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
+                    ."\n".$sBashComentario.'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON public.'.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
                     ."\n"
                     ."\n".$sBashComentario.' Crear indices de búsqueda'
-                    ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"'
+                    ."\n".$sBashComentario.'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"'
                     ."\n"
                     ."\n".$sBashComentario.' Ejecutar VACUUM y ANALYZE'
                     ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "VACUUM ANALYZE '.$sTabla.'"'
