@@ -1,4 +1,4 @@
 config.php
 SHP/*
-tmp/*
-
+tmp
+create_tables
