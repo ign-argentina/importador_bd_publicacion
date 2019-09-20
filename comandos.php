@@ -67,6 +67,9 @@ psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT 
 psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE EXTENSION IF NOT EXISTS \\"fuzzystrmatch\\""
 ';
 
+$aEsquemas = Array(); //Vector con todos los esquemas que se utilizan en la importacion
+$aEsquemas[] = "public";
+
 if ($gestor = opendir($sDirectorioSHPs)) {
     
     while (false !== ($esquema = readdir($gestor))) { //Recorre el directorio SHPs (cada subdirectorio es un esquema)
@@ -74,6 +77,10 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 		$sDirEsquema = $sDirectorioSHPs.$sDirSep.$esquema;
         if ($esquema != '.' && $esquema != '..' && is_dir($sDirEsquema) && ($gestor2 = opendir($sDirEsquema))) {
             
+			if (!in_array($esquema, $aEsquemas)) {
+				$aEsquemas[] = $esquema;
+			}
+			
 			echo "\n".$sBashComentario.' Crear el esquema'
 				 ."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE SCHEMA '.$esquema.'"';
 			
@@ -87,7 +94,9 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 						$sShp = $sDirSubclase.$sDirSep.$archivo;
 						if (!is_dir($sShp) && preg_match('/.shp$/i', $archivo)) { //Si encontro archivos SHP
                     
-							$sTabla = nombreSHP2NombreTabla($archivo); //Genera el nombre de la tabla a partir del nombre del SHP
+							$sTablaSoloNombre = nombreSHP2NombreTabla($archivo); //Genera el nombre de la tabla a partir del nombre del SHP
+							$sTablaNombreAux = $esquema.'_'.$sTablaSoloNombre; //Concatena el nombre del esquema al nombre de la tabla (solo para utilización como nombre único)
+							$sTabla = $esquema.'.'.$sTablaSoloNombre; //Concatena el nombre del esquema al nombre de la tabla (para llamar correctamente a toda la ruta de la tabla <esquema>.<tabla>)
 							
 							echo "\n".$sBashComentario." Eliminar tabla $sDBName\n" . 'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'" '."\n";
 
@@ -99,8 +108,8 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 							} else { //Si no existe el script de creacion de tabla, lo genera a partir del SHP
 								
 								echo "\n".$sBashComentario.' Generar solo CREATE TABLE'."\n".
-						  $sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
-						  'shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -p "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
+						  $sBashComentario.' shp2pgsql -s '.$iEPSGTransformation.' -t 2D -p "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
+						  'shp2pgsql -s '.$iEPSGTransformation.' -t 2D -p "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n".
 						  $sCopy.' tmp'.$sDirSep.'create_'.$sTabla.'.sql create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n\n".
 						  $sBashComentario.' Crear la tabla en BD'."\n".'
 						  psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
@@ -109,18 +118,18 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 
 							echo "\n".$sBashComentario.' Permisos sobre la tabla';
 							foreach ($aDBGrantUsers as $sGrantUser) { //Recorre el vector de usuarios y le asigna permisos sobre la tabla creada
-								echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT ALL ON TABLE public.'.$sTabla.' TO '.$sGrantUser.'"';
+								echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT ALL ON TABLE '.$sTabla.' TO '.$sGrantUser.'"';
 							}
 
 							echo "\n".$sBashComentario.' Agregar columna centroide'
-							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT AddGeometryColumn(\'\',\''.$sTabla.'\',\'centroide\',\''.$iEPSGTransformation.'\',\'POINT\',2)"'
+							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SET search_path TO '.implode(',', $aEsquemas).'; SELECT AddGeometryColumn(\'\',\''.$sTablaSoloNombre.'\',\'centroide\',\''.$iEPSGTransformation.'\',\'POINT\',2);"'
 							."\n"
 							."\n".$sBashComentario.' Agregar columna UUID (Global ID)'
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "ALTER TABLE '.$sTabla.' ADD COLUMN globalid uuid DEFAULT uuid_generate_v4()"'
 							."\n"
 							."\n".$sBashComentario.' Generar solo INSERT'
-							."\n".$sBashComentario.' shp2pgsql -s SRS_Origen:SRS_destino -t 3DZ -a "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
-							."\n".'shp2pgsql -s '.$iEPSGTransformation.' -t 3DZ -a "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+							."\n".$sBashComentario.' shp2pgsql -s SRS_Origen:SRS_destino -t 2D -a "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
+							."\n".'shp2pgsql -s '.$iEPSGTransformation.' -t 2D -a "'.$sShp.'" '.$sTabla.' > tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
 							."\n"
 							."\n".$sBashComentario.' Ejecutar INSERT'
 							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
@@ -133,10 +142,10 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"'
 							."\n"
 							."\n".$sBashComentario.' Crear un indice espacial'
-							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE INDEX '.$sTabla.'_gix ON '.$sTabla.' USING GIST (geom)"'
+							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE INDEX '.$sTablaNombreAux.'_gix ON '.$sTabla.' USING GIST (geom)"'
 							."\n"
 							."\n".$sBashComentario.' Crear trigger para calcular centroide'
-							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON public.'.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
+							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON '.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
 							."\n"
 							."\n".$sBashComentario.' Crear indices de búsqueda'
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"'
