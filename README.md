@@ -1,17 +1,34 @@
 # Importador base de datos de publicación
 
-Scripts de importación desde geodatabase hacia base de datos de publicación.
+Scripts de importación desde archivos Shape hacia base de datos de publicación.
 
-### Descripción de scripts:
+## Uso
 
-  - comandos.php: toma los archivos dentro del directorio SHPs y los importa a la base de datos de publicación.
-  - genera_tablas_sig.php: genera las tablas "lindas" a partir de las tablas importadas con el script "comandos.php". La estructura de datos necesaria se encuentra en "tablas_sig.backup", se debe ejecutar tablas_sig_backup al menos una vez antes de poder importar los datos.
+  - Editar el archivo de configuración `config.php`
+  - Ejecutar el script PHP `comandos.php`
 
-### Crear la tabla de configuración para reemplazar atributos del catalogo por nombres amigables
-sudo -u postgres psql sigpublicacion < tablas_sig.backup
 
-### Todo
+### Edición de archivo de configuración `config.php`
 
- - Autodectar el sisitema operativo en comandos.php (y generar comandos correspondientes al sistema operativo).
- - Mejorar el listado de tablas a procesar en genera_tablas_sig.php (reemplazar el vector $aTablas).
- - Agregar código en genera_tablas_sig.php que valide la existencia de las tablas atributo_quitar, atributo_leyenda, atributo_sld, dominio, dominio_valor y atributo
+El archivo de configuración contiene los datos necesarios para que el script pueda conectarse a la base de datos y pueda realizar la importación de los mismos desde archivos Shape hacia la base de datos PostgreSQL.
+Los parámetros de configuración son:
+
+- sDBHost: host name o dirección IP del servidor de base de datos
+- sDBName: nombre de la base de datos
+- sDBUsr: usuario de conexión a la base de datos
+- sDBPsw: contraseña de conexión a la base de datos
+- aDBGrantUsers: vector con el listado de roles y usuarios a los cuales se le asignaran permisos sobre las tablas creadas
+- sDirectorioSHPs: path donde se encuentran los archivos Shape a importar. Los archivos Shape deben estar dentro de directorios que indican el esquema de la base de datos donde se importarán como tablas y, dentro del esquema, en directorios que indican a qué espacio de trabajo corresponden. Un ejemplo de ubicación típica de un archivo Shape es: `shp/public/transporte/aeropuertos.shp`
+- iEPSGTransformation: sistema de coordenadas al cual se desean transformar los datos geométricos
+- sSistemaOperativo: sistema operativo donde se ejecuta el script PHP
+
+
+### Ejecución de script PHP `comandos.php`
+
+El script arroja por salida estándar los comandos bash correspondientes a la importación, por lo tanto, para ejecutarlo se debe capturar esa salida en un archivo bash:
+
+```
+php -f comandos.php > comandos.sh
+```
+
+Una vez generado el archivo bash, será al ejecutarlo que se realice la importación efectivamente.
