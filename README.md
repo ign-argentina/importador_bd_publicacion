@@ -11,6 +11,7 @@ Scripts de importación desde archivos Shape hacia base de datos de publicación
 ### Edición de archivo de configuración `config.php`
 
 El archivo de configuración contiene los datos necesarios para que el script pueda conectarse a la base de datos y pueda realizar la importación de los mismos desde archivos Shape hacia la base de datos PostgreSQL.
+Se debe renombrar el archivo `config.php.example` a `config.php`.
 Los parámetros de configuración son:
 
 - sDBHost: host name o dirección IP del servidor de base de datos
