@@ -91,9 +91,9 @@ SELECT 1 AS clase,
 					objeto,
 					geom,
 					centroide,
-					fna::varchar,
-					gna,
-					nam::varchar,
+					'Plataforma Continental' as fna,
+					'' as gna,
+					'' as nam,
 					sag::varchar
 				   FROM plataforma_continental
 				         INNER JOIN nomenclador.clase ON (clase.id = 1)
@@ -105,9 +105,9 @@ SELECT 1 AS clase,
 					objeto,
 					geom,
 					centroide,
-					fna::varchar,
-					gna,
-					nam::varchar,
+					'Zona Contigua Argentina' as fna,
+					'' as gna,
+					'' as nam,
 					sag::varchar
 				   FROM zona_contigua_argentina
 				         INNER JOIN nomenclador.clase ON (clase.id = 1)
@@ -119,9 +119,9 @@ SELECT 1 AS clase,
 					objeto,
 					geom,
 					centroide,
-					fna::varchar,
-					gna,
-					nam::varchar,
+					'Zona de Frontera' as fna,
+					'' as gna,
+					'' as nam,
 					sag::varchar
 				   FROM zona_de_frontera
 				         INNER JOIN nomenclador.clase ON (clase.id = 1)
@@ -133,11 +133,11 @@ SELECT 1 AS clase,
 					objeto,
 					geom,
 					centroide,
-					fna::varchar,
-					gna,
-					nam::varchar,
+					'Zona Económica Exclusiva Argentina' as fna,
+					'' as gna,
+					'' as nam,
 					sag::varchar
-				   FROM zona_economica_exclusiva
+				   FROM zona_economica_exclusiva_argentina
 				         INNER JOIN nomenclador.clase ON (clase.id = 1);
 GRANT ALL ON TABLE nomenclador.v_geodesia_demarcacion TO admins;
 GRANT ALL ON TABLE nomenclador.v_geodesia_demarcacion TO readonly;
