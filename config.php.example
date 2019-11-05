@@ -6,10 +6,13 @@ $sDBName = 'dbname';
 $sDBUsr = 'postgres';
 $sDBPsw = 'postgres*123';
 
+//Usuarios dueño de las tablas
+$sDBOwner = 'userowner';
+
 //Usuarios que deben estar asignados a las tablas
 $aDBGrantUsers = array();
-$aDBGrantUsers[] = 'admins';
-$aDBGrantUsers[] = 'readonly';
+$aDBGrantUsers['username'] = 'privilege';
+$aDBGrantUsers['username'] = 'privilege';
 
 //Directorio donde se encuentran los archivos SHP.
 //Existe una jerarquia, el primer nivel de directorios indica el esquema.
