@@ -117,8 +117,9 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 							}
 
 							echo "\n".$sBashComentario.' Permisos sobre la tabla';
-							foreach ($aDBGrantUsers as $sGrantUser) { //Recorre el vector de usuarios y le asigna permisos sobre la tabla creada
-								echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT ALL ON TABLE '.$sTabla.' TO '.$sGrantUser.'"';
+							echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "ALTER TABLE '.$sTabla.' OWNER to '.$sDBOwner.'"';
+							foreach ($aDBGrantUsers as $sGrantUser => $sPrivilege) { //Recorre el vector de usuarios y le asigna permisos sobre la tabla creada
+								echo "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "GRANT '.$sPrivilege.' ON TABLE '.$sTabla.' TO '.$sGrantUser.'"';
 							}
 
 							echo "\n".$sBashComentario.' Agregar columna centroide'
