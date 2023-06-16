@@ -1,18 +1,18 @@
 <?php
 /****************************************************
 Genera el listado de comandos para importar SHP
-a la base de datos de publicaci髇
-Adem醩 de este script, se requiere un archivo
+a la base de datos de publicaci贸n
+Adem谩s de este script, se requiere un archivo
 config.php, un directorio llamado tmp, otro
 llamado create_tables y un tercero llamado
 SHPs.
-- config.php: archivo de configuraci髇
+- config.php: archivo de configuraci贸n
 - tmp: directorio temporal donde guardar archivos
 - create_tables: directorio donde persisten los
-                 archivos de creaci髇 de tablas
+                 archivos de creaci贸n de tablas
                  (para evitar eliminar una tabla
                  creada en corridas previas)
-- SHPs: directorio donde estar醤 los subdirectorios,
+- SHPs: directorio donde estar谩n los subdirectorios,
         cada uno con sus respectivos archivos SHP
 ****************************************************/
 require_once 'config.php';
@@ -29,7 +29,7 @@ if ($sSistemaOperativo == 'windows') {
     $sEnvQuotes = "";
 } elseif ($sSistemaOperativo == 'linux') {
 	$sBashComentario = '#';
-	$sComandosIniciales = '';
+	$sComandosIniciales = '#!/bin/bash';
     $sEnvVar = 'export';
     $sCopy = 'cp';
     $sDirSep = '/';
@@ -51,8 +51,7 @@ $aClases[7] = 'v_vegetacion';
 createDir('create_tables');
 createDir('tmp');
 
-echo '
-'.$sComandosIniciales.'
+echo $sComandosIniciales.'
 
 '.$sBashComentario.' Crear variable entorno password
 '. $sEnvVar.' PGPASSWORD='.$sEnvQuotes.$sDBPsw.$sEnvQuotes.'
@@ -95,12 +94,12 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 						if (!is_dir($sShp) && preg_match('/.shp$/i', $archivo)) { //Si encontro archivos SHP
                     
 							$sTablaSoloNombre = nombreSHP2NombreTabla($archivo); //Genera el nombre de la tabla a partir del nombre del SHP
-							$sTablaNombreAux = $esquema.'_'.$sTablaSoloNombre; //Concatena el nombre del esquema al nombre de la tabla (solo para utilizaci髇 como nombre 鷑ico)
+							$sTablaNombreAux = $esquema.'_'.$sTablaSoloNombre; //Concatena el nombre del esquema al nombre de la tabla (solo para utilizaci贸n como nombre 煤nico)
 							$sTabla = $esquema.'.'.$sTablaSoloNombre; //Concatena el nombre del esquema al nombre de la tabla (para llamar correctamente a toda la ruta de la tabla <esquema>.<tabla>)
 							
 							echo "\n".$sBashComentario." Eliminar tabla $sDBName\n" . 'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "DROP TABLE '.$sTabla.'" '."\n";
 
-							if (file_exists('create_tables/create_'.$sTabla.'.sql')) { //Si ya existe el script de creaci髇 de la tabla, lo utiliza
+							if (file_exists('create_tables/create_'.$sTabla.'.sql')) { //Si ya existe el script de creaci贸n de la tabla, lo utiliza
 			
 								echo "\n".$sBashComentario.' Crear la tabla en BD' . "\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f create_tables'.$sDirSep.'create_'.$sTabla.'.sql'."\n";
 
@@ -134,7 +133,7 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 							."\n"
 							."\n".$sBashComentario.' Ejecutar INSERT'
 							."\n".'psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -f tmp'.$sDirSep.'insert_'.$sTabla.'.sql'
-							."\n".$sBashComentario.' Transforma la geometria a EPSG '.$iEPSGTransformation." La transformaci髇 se debe hacer al momento de generar el insert"
+							."\n".$sBashComentario.' Transforma la geometria a EPSG '.$iEPSGTransformation." La transformaci贸n se debe hacer al momento de generar el insert"
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set geom = ST_Transform(geom, '.$iEPSGTransformation.')"'
 							."\n".$sBashComentario.' Calcular el centroide'
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "UPDATE '.$sTabla.' set centroide = ST_Centroid(geom)"'
@@ -148,7 +147,7 @@ if ($gestor = opendir($sDirectorioSHPs)) {
 							."\n".$sBashComentario.' Crear trigger para calcular centroide'
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "CREATE TRIGGER '.$sTabla.'_centroide_trigger AFTER INSERT ON '.$sTabla.' FOR EACH ROW EXECUTE PROCEDURE public.calcular_centroide()"'
 							."\n"
-							."\n".$sBashComentario.' Crear indices de b鷖queda'
+							."\n".$sBashComentario.' Crear indices de b煤squeda'
 							."\n".$sBashComentario.' psql -h '.$sDBHost.' -U '.$sDBUsr.' -d '.$sDBName.' -c "SELECT crear_indice_para_busqueda_por_texto(\''.$sTabla.'\')"'
 							."\n"
 							."\n".$sBashComentario.' Ejecutar VACUUM y ANALYZE'
