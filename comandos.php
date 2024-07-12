@@ -21,21 +21,21 @@ require_once 'LibDirs.php';
 $aDatos = array();
 
 if ($sSistemaOperativo == 'windows') {
-	$sBashComentario = 'REM';
-    $sComandosIniciales = 'chcp 65001';
+    $sBashComentario = 'REM';
+    // $sComandosIniciales = 'chcp 65001';
     $sEnvVar = 'SET';
     $sCopy = 'copy';
     $sDirSep = "\\";
     $sEnvQuotes = "";
 } elseif ($sSistemaOperativo == 'linux') {
-	$sBashComentario = '#';
-	$sComandosIniciales = '#!/bin/bash';
+    $sBashComentario = '#';
+    $sComandosIniciales = '#!/bin/bash';
     $sEnvVar = 'export';
     $sCopy = 'cp';
     $sDirSep = '/';
     $sEnvQuotes = "\"";
 } else {
-	die('Falta indicar el sistema operativo');
+    die('Falta indicar el sistema operativo');
 }
 
 //Vistas para el nomenclador
